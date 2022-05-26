@@ -1,4 +1,7 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
 router = express.Router();
 
 const { User, Message } = require("./models");
@@ -31,8 +34,7 @@ router.get("/home", isAuthenticated, (req, res) => {
 router.get("/inbox", isAuthenticated, (req, res) => {
   const user = req.session.user;
 
-  Message
-    .find({})
+  Message.find({})
     .then((messages) => {
       res.render("inbox", {
         user,
@@ -43,7 +45,6 @@ router.get("/inbox", isAuthenticated, (req, res) => {
 });
 
 router.get("/sign-up", (req, res) => {
-
   if (req.session.user) {
     return res.redirect("/home");
   }
@@ -54,9 +55,8 @@ router.get("/sign-up", (req, res) => {
 });
 
 router.get("/sign-in", (req, res) => {
-
-  if(req.session.user){
-    return res.redirect('/home');
+  if (req.session.user) {
+    return res.redirect("/home");
   }
 
   res.render("sign-in", {
@@ -77,24 +77,29 @@ router.post("/sign-up", (req, res) => {
       });
     }
 
-    user = new User({
-      email: email,
-      password: password,
-      username: username,
-    });
+    bcrypt
+      .hash(password, saltRounds)
+      .then((passwordHash) => {
+        user = new User({
+          email: email,
+          password: passwordHash,
+          username: username,
+        });
 
-    console.log(user);
+        console.log(user);
 
-    user
-      .save()
-      .then(() => {
-        req.session.user = user;
-        return res.redirect('/home')
+        user
+          .save()
+          .then(() => {
+            req.session.user = user;
+            return res.redirect("/home");
+          })
+
+          .catch((err) => {
+            next(err);
+          });
       })
-
-      .catch((err) => {
-        next(err);
-      });
+      .catch((err) => next(err));
   });
 });
 
@@ -116,31 +121,35 @@ router.post("/sign-in", (req, res, next) => {
         });
       }
 
-      if (user.password == password) {
-        req.session.user = user;
+      bcrypt
+        .compare(password, user.password)
+        .then((match) => {
+          if (match) {
+            req.session.user = user;
 
-        if (req.redirectURL) {
-          tmp = req.session.redirectURL;
-          req.session.redirectURL = null;
-          return res.redirect(tmp);
-        }
+            if (req.redirectURL) {
+              tmp = req.session.redirectURL;
+              req.session.redirectURL = null;
+              return res.redirect(tmp);
+            }
 
-        return res.redirect('/home')
-
-      } else {
-        res.render("sign-in", {
-          message: "Invalid username or password.",
-        });
-      }
+            return res.redirect("/home");
+          } else {
+            res.render("sign-in", {
+              message: "Invalid username or password.",
+            });
+          }
+        })
+        .catch((err) => next(err));
     })
     .catch((err) => next(err));
 });
 
-router.get('/sign-out', (req, res) => {
+router.get("/sign-out", (req, res) => {
   req.session.destroy(() => {
-    return res.redirect('/')
-  })
-})
+    return res.redirect("/");
+  });
+});
 
 router.use((err, req, res, next) => {
   console.log(err);

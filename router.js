@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const axios = require("axios");
 
 router = express.Router();
 
@@ -16,8 +17,16 @@ function isAuthenticated(req, res, next) {
   }
 }
 
+const dailyQuoteAPI = "https://zenquotes.io/api/random";
+
 router.get("/", (req, res) => {
-  res.render("welcome");
+  axios
+    .get(dailyQuoteAPI)
+    .then((apiRes) => {
+      quote = apiRes.data[0];
+      return res.render("welcome", { quote: quote.q, author: quote.a });
+    })
+    .catch((apiErr) => next(apiErr))
 });
 
 router.get("/clear-inbox", isAuthenticated, (req, res) => {

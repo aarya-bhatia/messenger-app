@@ -4,8 +4,7 @@ require("dotenv").config();
 
 url = "mongodb://localhost:27017/messengerDB";
 prod_url = process.env.DB_URL;
-
-console.info(process.env.NODE_ENV);
+node_env = process.env.NODE_ENV || 'development';
 
 if (process.env.NODE_ENV == "production") {
   url = prod_url;

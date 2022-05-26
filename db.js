@@ -2,15 +2,14 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
-local_url = "mongodb://localhost:27017/messengerDB";
+url = "mongodb://localhost:27017/messengerDB";
 prod_url = process.env.DB_URL;
-url = null;
 
-if (process.env.NODE_ENV == "development") {
-  url = local_url;
-} else {
+console.info(process.env.NODE_ENV);
+
+if (process.env.NODE_ENV == "production") {
   url = prod_url;
-}
+} 
 
 mongoose
   .connect(url, {

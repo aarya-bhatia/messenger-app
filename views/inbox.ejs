@@ -31,6 +31,12 @@
       </div>
     </form>
   </div>
+
+  <div class="container-fluid">
+    <h4>Online Users</h4>
+    <ul data-user-list>
+    </ul>
+  </div>
 </div>
 
 <!-- <script src="/socket.io/socket.io.js"></script> -->
@@ -85,5 +91,17 @@
     container.scrollTop = container.scrollHeight; // scroll div
     messageInput.value = ""; // clear message now
   });
+
+  const userListElement = document.querySelector('[data-user-list]')
+
+  socket.on("users", function(data) {
+    console.log("online users: ", data.users)
+    html = "";
+    for(const user of data.users){
+      li = '<li>' + user.username + '</li>';
+      html += li;
+    }
+    userListElement.innerHTML = html;
+  })
 </script>
 <%- include('partials/footer') -%>

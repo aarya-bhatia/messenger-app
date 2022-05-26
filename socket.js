@@ -20,7 +20,17 @@ function handleMessageReceived(data) {
   });
 }
 
-online = []
+online = {}
+
+function getOnlineUsers(){
+  result = []
+  for(const key in online){
+    if(online[key]){
+      result.push(online[key])
+    }
+  }
+  return result
+}
 
 module.exports = function (server) {
   const io = require("socket.io").listen(server);
@@ -33,11 +43,13 @@ module.exports = function (server) {
     socket.on("disconnect", function () {
       console.log("user has disconnected: " + socket.id);
       delete online[socket.id];
+      io.emit('users', { users: getOnlineUsers() });
     });
 
     socket.on("register", function (data) {
       online[socket.id] = data
       console.log('connections: ', online)
+      io.emit('users', { users: getOnlineUsers() });
     });
 
     socket.on("message", function (data) {

@@ -1,57 +1,27 @@
 <%- include('partials/header') %>
+<!-- library and scripts for animation -->
 <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
-<script>
-  var username = "<%= user.username %>";
-  var greeting = 'H  e  l  l  o  ,';
-  for(var i = 0; i < username.length; i++) {
-      greeting += '  ' + username[i];
-  }
-  greeting += '.';
-  var index = 0;
-
-  function setup() {
-    const container = document.querySelector("#canvas");
-    const w = container.clientWidth;
-    const h = container.clientHeight;
-    console.log(w);
-    var canvas = createCanvas(w, h);
-    canvas.parent('canvas');
-    textFont('Montserrat');
-  }
-
-  function draw() {
-    background(0, 0);
-    textSize(20);
-    fill(255);
-    text(greeting.substring(0, parseInt(index)), 20, 100);
-    if (index < greeting.length) {
-      index += 0.2;
-    } else {
-      noLoop();
-    }
-  }
-  window.addEventListener("resize", function() {
-    const container = document.querySelector("#canvas");
-    const w = container.clientWidth;
-    const h = container.clientHeight;
-    resizeCanvas(w, h);
-    index = 0;
-    loop();
-  });
-
+<script type="text/javascript">
+const user_id = "<%= user._id %>"
+const username = "<%= user.username %>"
 </script>
+<script src="/js/homepage_animation.js"></script>
 
 <div class="root container-fluid">
-
- <%- include('partials/navigation') %>
+  <!-- nav -->
+  <%- include('partials/navigation') %>
 
   <div class="message-container container-fluid">
+    <!-- animation canvas -->
     <div id="canvas"></div>
-    <div class="container-fluid">
+
+    <center>
       <p>See your messages.</p>
+      <p>You have <span id="new-messages-label">0</span> new messages.</p>
       <a href="/inbox"><button class="btn btn-light">Inbox</button></a>
-    </div>
+    </center>
   </div>
 </div>
 
+<script type="text/javascript" src="/js/notifications.js"></script>
 <%- include('partials/footer') %>

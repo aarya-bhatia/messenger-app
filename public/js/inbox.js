@@ -1,8 +1,7 @@
 let socket = io.connect();
-const socket_id = socket.id
 
 socket.emit("register", {
-  socket_id,
+  socket_id: socket.id,
   user_id,
   username,
 });

@@ -1,6 +1,4 @@
-const str = 'Hello, Aarya'.split('').join('  ')
-const str2 = "Welcome to messenger.";
-const str3 = "Go to your Inbox to start chatting.";
+var greeting = ("Hello " + username).split('').join(' ')
 var index = 0;
 
 function setup() {
@@ -17,8 +15,8 @@ function draw() {
   background(0, 0);
   textSize(20);
   fill(255);
-  text(str.substring(0, parseInt(index)), 20, 100);
-  if (index < str.length) {
+  text(greeting.substring(0, parseInt(index)), 20, 100);
+  if (index < greeting.length) {
     index += 0.2;
   } else {
     noLoop();

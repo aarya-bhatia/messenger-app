@@ -42,9 +42,9 @@ module.exports = function (server) {
       console.log("user has disconnected: " + socket.id);
 
       if (store.online[socket.id]) {
-        user_id = store.online[socket.id].user_id
+        user_id = store.online[socket.id].user_id;
 
-        if(user_id) {
+        if (user_id) {
           store.last_seen[user_id] = new Date();
         }
       }
@@ -54,10 +54,31 @@ module.exports = function (server) {
       io.emit("users", { users: getOnlineUsers() });
     });
 
+    /**
+     * send data for notifications on home page
+     * @param data { user_id }
+     */
+    socket.on("status", function (data) {
+      if (data.user_id) {
+        if (store.last_seen[data.user_id]) {
+          console.log(store.last_seen[data.user_id]);
+
+          // count number of new messages since last seen time for current user
+          Message.countDocuments({
+            time: { $gte: store.last_seen[data.user_id] },
+          }).then((result) => {
+            console.log(result + " new messages");
+            io.to(socket.id).emit('status', { num_messages: result })
+          });
+
+        }
+      }
+    });
+
     socket.on("register", function (data) {
       store.online[socket.id] = data;
 
-      if(data.user_id) {
+      if (data.user_id) {
         store.last_seen[data.user_id] = new Date();
       }
 

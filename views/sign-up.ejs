@@ -1,0 +1,40 @@
+<%- include('partials/header') -%>
+
+  <style>
+    body {
+      background-color: #222831;
+      color: white;
+      text-align: center;
+    }
+
+    .form-container {
+      margin-top: 10%;
+    }
+
+    .form {
+      padding: 10px;
+      width: 50%;
+      margin: 10px auto;
+    }
+  </style>
+
+  <div class="form-container container">
+    <form action="/sign-up" method="post">
+      <div class="form form-group">
+        <input name="email" type="text" class="form-control" placeholder="Email Address" value="">
+      </div>
+
+      <div class="form form-group">
+        <input name="password" type="text" class="form-control" placeholder="Password" value="">
+      </div>
+
+      <div class="form form-group">
+        <input name="username" type="text" class="form-control" placeholder="Username" value="">
+      </div>
+
+      <p class="form-text"><%= message %></>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+<%- include('partials/footer') -%>

@@ -1,0 +1,87 @@
+<%- include('partials/header') -%>
+<div class="root container-fluid">
+  <!-- NAVIGATION -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+      <img
+        src="images/logo.png"
+        width="30"
+        height="30"
+        class="d-inline-block align-top"
+        alt=""
+        loading="lazy"
+      />
+      Messenger
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/home/<%= user._id %>"
+            >Home <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/inbox/<%= user._id %>">Inbox</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!------------------------------------------------------------------------->
+  <div class="message-container container-fluid">
+    <ul class="messages-list list-group list-group-flush">
+      <li class="messages list-group-item">Welcome to chat app!</li>
+      <% messages.forEach(function(message){ %>
+      <li class="messages list-group-item">
+        <strong><%= message.sender %> </strong>
+        <%= message.content %><span><%= message.time %></span>
+      </li>
+      <% }); %>
+    </ul>
+  </div>
+  <div class="input-field container-fluid">
+    <form id="messageForm" action="/inbox/<%=user._id%>" method="post">
+      <div class="input-group mb-3">
+        <input
+          name="content"
+          id="m"
+          type="text"
+          class="form-control"
+          placeholder="Type here"
+          aria-label="Type here"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="submit"
+            id="button-addon2"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+  var socket = io.connect();
+  // socket.emit('message', 'user has entered chat')
+</script>
+<%- include('partials/footer') -%>

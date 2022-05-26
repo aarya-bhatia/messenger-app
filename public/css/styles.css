@@ -1,0 +1,57 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #222831;
+  color: white;
+}
+
+.root {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.navbar-brand {
+  font-family: 'Piedra', cursive;
+}
+
+.message-container {
+  margin: 0;
+  background-color: #393e46;
+  height: 70vh;
+  overflow: scroll;
+}
+
+.messages {
+  background-color: #222831;
+  margin: 0;
+}
+
+li {
+  font-size: 0.9rem;
+}
+
+li:nth-child(odd) {
+  color: lime;
+}
+
+li.messages:nth-child(even) {
+  background-color: #393e46;
+}
+
+.messages span {
+  float: right;
+  font-size: 0.8rem;
+  color: white;
+}
+
+.input-field {
+  height: 10vh;
+  margin: 5% 0 0;
+}
+
+footer {
+    font-size: 14px;
+}
+
+#canvas {
+  height: 200px;
+}

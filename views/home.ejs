@@ -1,0 +1,82 @@
+<%- include('partials/header') %>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+<script>
+  var username = "<%= user.username %>";
+  var greeting = 'H  e  l  l  o  ,';
+  for(var i = 0; i < username.length; i++) {
+      greeting += '  ' + username[i];
+  }
+  greeting += '.';
+  var index = 0;
+
+  function setup() {
+    const container = document.querySelector("#canvas");
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    console.log(w);
+    var canvas = createCanvas(w, h);
+    canvas.parent('canvas');
+    textFont('Montserrat');
+  }
+
+  function draw() {
+    background(0, 0);
+    textSize(20);
+    fill(255);
+    text(greeting.substring(0, parseInt(index)), 20, 100);
+    if (index < greeting.length) {
+      index += 0.2;
+    } else {
+      noLoop();
+    }
+  }
+  window.addEventListener("resize", function() {
+    const container = document.querySelector("#canvas");
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    resizeCanvas(w, h);
+    index = 0;
+    loop();
+  });
+
+</script>
+
+<div class="root container-fluid">
+
+  <!-- NAVIGATION -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+      <img src="images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+      Messenger
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/home/<%= user._id %>">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/inbox/<%= user._id %>">Inbox</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ----------------------------------------------------------------------  -->
+
+  <div class="message-container container-fluid">
+    <div id="canvas"></div>
+    <div class="container-fluid">
+      <p>See your messages.</p>
+      <a href="/inbox/<%= user._id %>"><button class="btn btn-light">Inbox</button></a>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

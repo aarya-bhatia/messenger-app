@@ -1,0 +1,36 @@
+<%- include('partials/header') -%>
+
+<style>
+  body {
+    background-color: #222831;
+    color: white;
+    text-align: center;
+  }
+
+  .form-container {
+    margin-top: 10%;
+  }
+
+  .form {
+    padding: 10px;
+    width: 50%;
+    margin: 10px auto;
+  }
+</style>
+
+
+<div class="form-container container">
+  <form action="/sign-in" method="POST">
+      <input name="email" type="email" class="form-control" placeholder="Email Address" required>
+      <input name="password" type="password" class="form-control" placeholder="Password" required>
+
+      <% if(message != "") { %>
+        <p class="form-text">*<%= message %></p>
+      <% } %>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+
+<%- include('partials/footer') -%>

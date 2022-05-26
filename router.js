@@ -3,60 +3,62 @@ router = express.Router();
 
 const { User, Message } = require("./models");
 
+// middleware to test if authenticated
+function isAuthenticated(req, res, next) {
+  if (req.session.user) {
+    return next();
+  } else {
+    req.session.redirectURL = req.url;
+    return res.redirect("/sign-in");
+  }
+}
+
 router.get("/", (req, res) => {
   res.render("welcome");
 });
 
-router.get("/clear-inbox", (req, res) => {
+router.get("/clear-inbox", isAuthenticated, (req, res) => {
   Message.deleteMany({}).then(() => {
     return res.redirect("/");
   });
 });
 
-router.get("/home/:id", (req, res) => {
-  const userid = req.params.id;
-
-  User.findOne({ _id: userid })
-    .then((user) => {
-      if (user) {
-        res.render("home", {
-          user: user,
-        });
-      } else {
-        return next({ message: "User not found", status: 400 });
-      }
-    })
-    .catch((err) => next(err));
+router.get("/home", isAuthenticated, (req, res) => {
+  const user = req.session.user;
+  res.render("home", { user });
 });
 
-router.get("/inbox/:id", (req, res) => {
-  const userid = req.params.id;
+router.get("/inbox", isAuthenticated, (req, res) => {
+  const user = req.session.user;
 
-  User.findOne({ _id: userid })
-    .then((user) => {
-      Message.find({})
-        .then((messages) => {
-          if (user) {
-            res.render("inbox", {
-              user: user,
-              messages,
-            });
-          } else {
-            return next({ message: "User is not authenticated", status: 400 });
-          }
-        })
-        .catch((err) => next(err));
+  Message
+    .find({})
+    .then((messages) => {
+      res.render("inbox", {
+        user,
+        messages,
+      });
     })
     .catch((err) => next(err));
 });
 
 router.get("/sign-up", (req, res) => {
+
+  if (req.session.user) {
+    return res.redirect("/home");
+  }
+
   res.render("sign-up", {
     message: "",
   });
 });
 
 router.get("/sign-in", (req, res) => {
+
+  if(req.session.user){
+    return res.redirect('/home');
+  }
+
   res.render("sign-in", {
     message: "",
   });
@@ -86,7 +88,8 @@ router.post("/sign-up", (req, res) => {
     user
       .save()
       .then(() => {
-        return res.render("home", { user });
+        req.session.user = user;
+        return res.redirect('/home')
       })
 
       .catch((err) => {
@@ -114,9 +117,16 @@ router.post("/sign-in", (req, res, next) => {
       }
 
       if (user.password == password) {
-        res.render("home", {
-          user: user,
-        });
+        req.session.user = user;
+
+        if (req.redirectURL) {
+          tmp = req.session.redirectURL;
+          req.session.redirectURL = null;
+          return res.redirect(tmp);
+        }
+
+        return res.redirect('/home')
+
       } else {
         res.render("sign-in", {
           message: "Invalid username or password.",
@@ -125,6 +135,12 @@ router.post("/sign-in", (req, res, next) => {
     })
     .catch((err) => next(err));
 });
+
+router.get('/sign-out', (req, res) => {
+  req.session.destroy(() => {
+    return res.redirect('/')
+  })
+})
 
 router.use((err, req, res, next) => {
   console.log(err);

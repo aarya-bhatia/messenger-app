@@ -21,12 +21,6 @@ app.use(
   })
 );
 
-// middleware to test if authenticated
-function isAuthenticated(req, res, next) {
-  if (req.session.user) next();
-  else next("route");
-}
-
 app.use(express.static(__dirname + '/public'));
 app.use(require('./router'))
 

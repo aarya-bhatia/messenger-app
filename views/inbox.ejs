@@ -7,7 +7,9 @@
       <% messages.forEach(function(message){ %>
       <li class="messages list-group-item">
         <strong><%= message.sender %> </strong>
-        <%= message.content %><span><%= message.time %></span>
+        <%= message.content %><span
+          ><%= new Date(message.time).toLocaleString() %></span
+        >
       </li>
       <% }); %>
     </ul>
@@ -35,9 +37,18 @@
 <script type="text/javascript">
   let socket = io.connect();
 
+  socket.emit("register", {
+    socket_id: socket.id,
+    user_id: "<%= user._id %>",
+    username: "<%= user.username %>",
+  });
+
   const formElement = document.querySelector("form");
   const messageInput = document.querySelector("#content");
   const messageListElement = document.querySelector("[data-messages]");
+  const container = document.querySelector(".message-container");
+
+  container.scrollTop = container.scrollHeight; // scroll div
 
   formElement.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -56,15 +67,23 @@
   });
 
   socket.on("message", function (data) {
-    console.log("Received message from Server: ", data);
+    // console.log("Received message from Server: ", data);
+
+    if (data.time) {
+      data.time = new Date(data.time).toLocaleString();
+    }
+
     html = "";
     html += "<li class='messages list-group-item'>";
     html += "<strong>" + data.sender + "</strong> ";
     html += data.content;
     html += "<span>" + data.time + "</span>";
     html += "</li>";
-    console.log(html);
+    // console.log(html);
     messageListElement.innerHTML += html;
+
+    container.scrollTop = container.scrollHeight; // scroll div
+    messageInput.value = ""; // clear message now
   });
 </script>
 <%- include('partials/footer') -%>

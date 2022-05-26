@@ -1,4 +1,8 @@
 const express = require('express');
+const session = require("express-session");
+
+require('dotenv').config()
+
 const app = express();
 
 const port = process.env.PORT || 3000;
@@ -8,6 +12,20 @@ app.set('view engine', 'ejs');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// middleware to test if authenticated
+function isAuthenticated(req, res, next) {
+  if (req.session.user) next();
+  else next("route");
+}
 
 app.use(express.static(__dirname + '/public'));
 app.use(require('./router'))

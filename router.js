@@ -7,51 +7,47 @@ router.get("/", (req, res) => {
   res.render("welcome");
 });
 
-router.get('/clear-inbox', (req, res)=>{
-  Message.deleteMany({}).then(()=>{
-    return res.redirect('/')
-  })
-})
+router.get("/clear-inbox", (req, res) => {
+  Message.deleteMany({}).then(() => {
+    return res.redirect("/");
+  });
+});
 
 router.get("/home/:id", (req, res) => {
   const userid = req.params.id;
-  User.findOne(
-    {
-      _id: userid,
-    },
-    function (err, user) {
-      if (err) console.log(err);
-      else {
-        if (user) {
-          res.render("home", {
-            user: user,
-          });
-        }
+
+  User.findOne({ _id: userid })
+    .then((user) => {
+      if (user) {
+        res.render("home", {
+          user: user,
+        });
+      } else {
+        return next({ message: "User not found", status: 400 });
       }
-    }
-  );
+    })
+    .catch((err) => next(err));
 });
 
 router.get("/inbox/:id", (req, res) => {
   const userid = req.params.id;
-  User.findOne(
-    {
-      _id: userid,
-    },
-    function (err, user) {
-      if (err) console.log(err);
-      else {
-        if (user) {
-          Message.find({}, function (e, found) {
+
+  User.findOne({ _id: userid })
+    .then((user) => {
+      Message.find({})
+        .then((messages) => {
+          if (user) {
             res.render("inbox", {
               user: user,
-              messages: found,
+              messages,
             });
-          });
-        }
-      }
-    }
-  );
+          } else {
+            return next({ message: "User is not authenticated", status: 400 });
+          }
+        })
+        .catch((err) => next(err));
+    })
+    .catch((err) => next(err));
 });
 
 router.get("/sign-up", (req, res) => {
@@ -90,7 +86,7 @@ router.post("/sign-up", (req, res) => {
     user
       .save()
       .then(() => {
-        return res.render("home", {user});
+        return res.render("home", { user });
       })
 
       .catch((err) => {
@@ -100,7 +96,7 @@ router.post("/sign-up", (req, res) => {
 });
 
 router.post("/sign-in", (req, res, next) => {
-  console.log(req.body)
+  console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
 
@@ -110,9 +106,11 @@ router.post("/sign-in", (req, res, next) => {
 
   User.findOne({ email })
     .then((user) => {
-      if(!user)
-      {
-        return next({ message: "No account found for this email", status: 400 });
+      if (!user) {
+        return next({
+          message: "No account found for this email",
+          status: 400,
+        });
       }
 
       if (user.password == password) {

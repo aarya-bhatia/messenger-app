@@ -44,7 +44,7 @@ router.get("/inbox", isAuthenticated, (req, res) => {
   const user = req.session.user;
 
   Message.find({})
-    .sort({ time: -1 })
+    .sort({ time: 1 })
     .limit(100)
     .exec()
     .then((messages) => {

@@ -29,11 +29,11 @@ router.get("/", (req, res) => {
     .catch((apiErr) => next(apiErr));
 });
 
-router.get("/clear-inbox", isAuthenticated, (req, res) => {
-  Message.deleteMany({}).then(() => {
-    return res.redirect("/");
-  });
-});
+// router.get("/clear-inbox", isAuthenticated, (req, res) => {
+//   Message.deleteMany({}).then(() => {
+//     return res.redirect("/");
+//   });
+// });
 
 router.get("/home", isAuthenticated, (req, res) => {
   const user = req.session.user;
@@ -44,6 +44,9 @@ router.get("/inbox", isAuthenticated, (req, res) => {
   const user = req.session.user;
 
   Message.find({})
+    .sort({ time: -1 })
+    .limit(100)
+    .exec()
     .then((messages) => {
       res.render("inbox", {
         user,

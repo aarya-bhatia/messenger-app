@@ -37,28 +37,30 @@ module.exports = function (server) {
   io.sockets.on("connection", function (socket) {
     console.log("user is connected: ", socket.id);
     store.online[socket.id] = null;
-    console.log("connections: ", store.online);
-    console.log("last seen: ", store.last_seen);
 
     socket.on("disconnect", function () {
       console.log("user has disconnected: " + socket.id);
 
       if (store.online[socket.id]) {
-        store.last_seen[store.online[socket.id].user_id] = new Date();
+        user_id = store.online[socket.id].user_id
+
+        if(user_id) {
+          store.last_seen[user_id] = new Date();
+        }
       }
 
       delete store.online[socket.id];
+
       io.emit("users", { users: getOnlineUsers() });
     });
 
     socket.on("register", function (data) {
-      if(!data.user_id) {
-        return console.log('Register error: user_id missing')
+      store.online[socket.id] = data;
+
+      if(data.user_id) {
+        store.last_seen[data.user_id] = new Date();
       }
 
-      store.online[socket.id] = data;
-      store.last_seen[data.user_id] = new Date();
-      console.log("connections: ", store.online);
       io.emit("users", { users: getOnlineUsers() });
     });
 
@@ -67,7 +69,6 @@ module.exports = function (server) {
 
       handleMessageReceived(data)
         .then((newMessage) => {
-          // console.log('Sending message to sockets from server');
           io.emit("message", newMessage);
         })
         .catch((err) => {

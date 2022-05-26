@@ -7,6 +7,12 @@ router.get("/", (req, res) => {
   res.render("welcome");
 });
 
+router.get('/clear-inbox', (req, res)=>{
+  Message.deleteMany({}).then(()=>{
+    return res.redirect('/')
+  })
+})
+
 router.get("/home/:id", (req, res) => {
   const userid = req.params.id;
   User.findOne(

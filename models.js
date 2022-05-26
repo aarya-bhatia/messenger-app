@@ -13,6 +13,14 @@ const messageSchema = new mongoose.Schema({
   time: Date
 });
 
+const notificationSchema = new mongoose.Schema({
+  user_id: mongoose.Types.ObjectId,
+  title: String,
+  description: String,
+  time: Date,
+  seen: Boolean
+});
+
 const User = mongoose.model("User", userSchema);
 const Message = mongoose.model("Message", messageSchema);
 

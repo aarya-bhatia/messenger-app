@@ -4,7 +4,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">
       <img
-        src="images/logo.png"
+        src="/images/logo.png"
         width="30"
         height="30"
         class="d-inline-block align-top"
@@ -44,7 +44,7 @@
 
   <!------------------------------------------------------------------------->
   <div class="message-container container-fluid">
-    <ul class="messages-list list-group list-group-flush">
+    <ul class="messages-list list-group list-group-flush" data-messages>
       <li class="messages list-group-item">Welcome to chat app!</li>
       <% messages.forEach(function(message){ %>
       <li class="messages list-group-item">
@@ -55,24 +55,18 @@
     </ul>
   </div>
   <div class="input-field container-fluid">
-    <form id="messageForm" action="/inbox/<%=user._id%>" method="post">
+    <form action="">
       <div class="input-group mb-3">
         <input
           name="content"
-          id="m"
+          id="content"
           type="text"
           class="form-control"
           placeholder="Type here"
           aria-label="Type here"
         />
         <div class="input-group-append">
-          <button
-            class="btn btn-outline-secondary"
-            type="submit"
-            id="button-addon2"
-          >
-            Send
-          </button>
+          <button class="btn btn-outline-secondary" type="submit">Send</button>
         </div>
       </div>
     </form>
@@ -81,7 +75,38 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
-  var socket = io.connect();
-  // socket.emit('message', 'user has entered chat')
+  let socket = io.connect();
+
+  const formElement = document.querySelector("form");
+  const messageInput = document.querySelector("#content");
+  const messageListElement = document.querySelector("[data-messages]");
+
+  formElement.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if (messageInput.value) {
+      console.log("Sending message to server: " + messageInput.value);
+
+      socket.emit("message", {
+        sender_id: "<%= user._id %>",
+        socket_id: socket.id,
+        content: messageInput.value,
+        sender: "<%= user.username %>",
+        time: new Date(),
+      });
+    }
+  });
+
+  socket.on("message", function (data) {
+    console.log("Received message from Server: ", data);
+    html = "";
+    html += "<li>";
+    html += "<strong>" + data.sender + "</strong>";
+    html += data.content;
+    html += "<span>" + data.time + "</span>";
+    html += "</li>";
+    console.log(html);
+    messageListElement.innerHTML += html;
+  });
 </script>
 <%- include('partials/footer') -%>

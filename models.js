@@ -7,9 +7,10 @@ const userSchema = new mongoose.Schema({
 });
 
 const messageSchema = new mongoose.Schema({
+  sender_id: mongoose.Types.ObjectId,
   sender: String,
   content: String,
-  time: String
+  time: Date
 });
 
 const User = mongoose.model("User", userSchema);

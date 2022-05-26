@@ -122,29 +122,6 @@ router.post("/sign-in", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.post("/inbox/:id", (req, res) => {
-  const userid = req.params.id;
-  const content = req.body.content;
-  const time = new Date();
-
-  User.findOne(
-    {
-      _id: userid,
-    },
-    function (err, user) {
-      const newMessage = new Message({
-        sender: user.username,
-        content: content,
-        time: time,
-      });
-      newMessage.save();
-      console.log(newMessage);
-    }
-  );
-
-  res.redirect("/inbox/" + userid);
-});
-
 router.use((err, req, res, next) => {
   console.log(err);
   res

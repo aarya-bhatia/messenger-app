@@ -2,10 +2,12 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const axios = require("axios");
+const store = require("./store");
+const { User, Message } = require("./models");
 
 router = express.Router();
 
-const { User, Message } = require("./models");
+const dailyQuoteAPI = "https://zenquotes.io/api/random";
 
 // middleware to test if authenticated
 function isAuthenticated(req, res, next) {
@@ -17,8 +19,6 @@ function isAuthenticated(req, res, next) {
   }
 }
 
-const dailyQuoteAPI = "https://zenquotes.io/api/random";
-
 router.get("/", (req, res) => {
   axios
     .get(dailyQuoteAPI)
@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
       quote = apiRes.data[0];
       return res.render("welcome", { quote: quote.q, author: quote.a });
     })
-    .catch((apiErr) => next(apiErr))
+    .catch((apiErr) => next(apiErr));
 });
 
 router.get("/clear-inbox", isAuthenticated, (req, res) => {
@@ -136,7 +136,7 @@ router.post("/sign-in", (req, res, next) => {
           if (match) {
             req.session.user = user;
 
-            if (req.redirectURL) {
+            if (req.session.redirectURL) {
               tmp = req.session.redirectURL;
               req.session.redirectURL = null;
               return res.redirect(tmp);
@@ -157,6 +157,13 @@ router.post("/sign-in", (req, res, next) => {
 router.get("/sign-out", (req, res) => {
   req.session.destroy(() => {
     return res.redirect("/");
+  });
+});
+
+router.get("/var", (req, res) => {
+  res.json({
+    online: store.online,
+    last_seen: store.last_seen,
   });
 });
 

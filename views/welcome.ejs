@@ -1,37 +1,34 @@
 <%- include('partials/header') %>
-<link rel="stylesheet" href="css/welcome.css" />
-
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-  <header class="masthead mb-auto">
+<div class="d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="mb-auto">
     <div class="inner">
       <img
-        class="masthead-brand"
+        class="img-fluid"
         src="/images/logo.png"
         width="30"
         height="30"
         class="d-inline-block align-top"
-        alt=""
+        alt="logo"
         loading="lazy"
       />
     </div>
   </header>
-  <main role="main" class="inner cover">
+  <main role="main" class="mt-4">
     <h1 class="cover-heading">
-      <!-- <% if(quote){ %><%= quote %><% } else { %> HAPPINESS IS <% } %> -->
-      <% if(author) { %> <%= author %> <% } else { %> ...a good coffee and a
-      good chat. <% } %>
+      <% if(author) { %> <%= author %> <% } else { %> HAPPINESS IS <% } %>
     </h1>
     <p class="lead">
-      <% if(quote){ %><%= quote %><% } else { %> HAPPINESS IS <% } %>
-      <!-- <% if(author) { %> <%= author %> <% } else { %> ...a good coffee and a
-      good chat. <% } %> -->
+      <% if(quote){ %><%= quote %><% } else { %>  ...a good coffee and a
+      good chat. <% } %>
     </p>
-    <hr />
     <p class="lead">
       <a href="/sign-up" class="btn btn-lg btn-secondary">Sign Up</a>
-      <a href="/sign-in" class="btn btn-lg btn-secondary">Sign In</a>
+      <a href="/sign-in" class="btn btn-lg btn-primary">Sign In</a>
     </p>
   </main>
-
-  <%- include('partials/footer', { html: '<span class="text-muted small">Inspirational quotes provided by <a href="https://zenquotes.io/" target="_blank">ZenQuotes API</a></span>' }) %>
 </div>
+
+
+  <%- include('partials/footer', { html: '<span class="text-muted small">Inspirational quotes provided by <a href="https://zenquotes.io/" target="_blank">ZenQuotes API</a></span>' }) -%>
+
+  

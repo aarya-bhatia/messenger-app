@@ -8,8 +8,8 @@ socket.emit("register", {
 
 const formElement = document.querySelector("form");
 const messageInput = document.querySelector("#content");
-const container = document.querySelector("[data-message-container]");
-const messageTemplate = document.getElementsByTagName("template")[0];
+const container = document.querySelector("[data-message-list]");
+const messageTemplate = document.querySelector("template#message-card-template");
 const userListElement = document.querySelector("[data-user-list]");
 
 function createMessageElement(message) {
@@ -48,12 +48,13 @@ socket.on("message", function (data) {
   messageInput.value = ""; // clear message now
 });
 
+// updates list of online users
 socket.on("users", function (data) {
   console.log("online users: ", data.users);
   html = "";
   for (const user of data.users) {
-    li = "<li>" + user.username + "</li>";
-    html += li;
+    el = "<li>" + user.username + "</li>";
+    html += el;
   }
   userListElement.innerHTML = html;
 });

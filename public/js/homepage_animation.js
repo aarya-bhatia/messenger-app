@@ -14,8 +14,8 @@ function setup() {
 function draw() {
   background(0, 0);
   textSize(20);
-  fill(255);
-  text(greeting.substring(0, parseInt(index)), 20, 100);
+  fill(0);
+  text(greeting.substring(0, parseInt(index)), 20, 40);
   if (index < greeting.length) {
     index += 0.2;
   } else {

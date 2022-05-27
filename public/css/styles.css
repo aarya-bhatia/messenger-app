@@ -1,42 +1,63 @@
 :root {
-  --bg-color: #B3E8E5;
-  --card-bg-color: #82DBD8;
-  --font-color: #2a818e;
+  --card-bg-color: #b3e8e5;
+  --bg-color: #82dbd8;
+  --font-color: #26727e;
+  --message-color: #ed3dc1;
 }
 
 body {
   font-family: "Montserrat", sans-serif;
-  background-color: #222831;
-  color: rgba(255, 255, 255, 0.9);
+  background-color: var(--bg-color);
+  color: var(--font-color);
 }
 
-.root {
-  width: 80%;
-  margin: 0 auto;
-}
-
-.navbar-brand {
-  font-family: "Piedra", cursive;
-}
-
-.message-container {
+[data-message-list] {
   height: 70vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
-.input-field {
-  height: 10vh;
-  margin: 5% 0 0;
+[data-message-container] {
+  background-color: var(--card-bg-color);
 }
 
-footer {
-  font-size: 14px;
+[data-message-time] {
+}
+
+[data-message-sender] {
+  font-weight: 520;
+}
+
+[data-message-content] {
+}
+
+[data-message-actions] {
+  width: 15%;
+}
+
+[data-message-actions] > a {
+  color: var(--font-color);
+}
+
+[data-message-actions] > a:hover {
+  color: var(--bg-color);
 }
 
 #canvas {
-  height: 200px;
+  height: 100px;
 }
 
-.action-button {
-  border: 0.5px solid rgba(255, 255, 255, 0.7);
+#online-users {
+  background-color: var(--card-bg-color);
+}
+
+input[type=text]{
+  border: none;
+}
+
+input[type=text]:focus {
+  background-color: var(--card-bg-color);
+}
+
+button[type=submit] {
+  background-color: var();
 }

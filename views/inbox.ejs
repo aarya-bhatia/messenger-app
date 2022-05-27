@@ -1,64 +1,39 @@
 <%- include('partials/header') -%>
-<div class="root container-fluid">
-  <%- include('partials/navigation') -%>
-  <div class="container-fluid message-container" data-message-container>
-    <% messages.forEach(function(message){ %>
-    <div
-      class="p-4"
-      style="border-bottom: 0.5px solid rgba(255, 255, 255, 0.5)"
-    >
-      <div class="d-flex justify-content-between">
-        <div>
-          <span style="font-weight: 520" data-message-sender
-            ><%= message.sender %></span
-          >
-          &nbsp;
-          <span class="" style="color: lime" data-message-content
-            ><%= message.content %></span
-          >
-        </div>
 
-        <div class="d-flex flex-column">
-          <span class="text-muted small" data-message-time
-            ><%= new Date(message.time).toLocaleString() %></span
-          >
-          <div class="d-flex justify-content-around my-2">
-            <button
-              class="btn btn-small btn-outline-light rounded action-button"
-              data-toggle="tooltip"
-              title="Like"
-            >
-              <small>
-                <i class="bi bi-hand-thumbs-up"></i>
-              </small>
-            </button>
-            <button
-              class="btn btn-small btn-outline-light rounded action-button"
-              data-toggle="tooltip"
-              title="Reply"
-            >
-              <small>
-                <i class="bi bi-reply"></i>
-              </small>
-            </button>
-            <button
-              class="btn btn-small btn-outline-light rounded action-button"
-              data-toggle="tooltip"
-              title="Heart"
-            >
-              <small>
-                <i class="bi bi-heart"></i>
-              </small>
-            </button>
-          </div>
+<div class="container">
+  <center class="my-4">
+    <h2>Messenger</h2>
+  </center>
+  <div data-message-list>
+    <% messages.forEach(function(message){ %>
+
+    <div class="shadow-sm p-3 my-3" data-message-container>
+      <div class="mb-1">
+        <span data-message-sender><%= message.sender %></span>&nbsp;
+        <span class="small" data-message-time
+          ><%= new Date(message.time).toLocaleString() %></span
+        >
+        <div class="float-right" data-message-actions>
+          <a href="#" data-toggle="tooltip" title="Like">
+            <i class="bi bi-hand-thumbs-up"></i>
+          </a>
+          <a href="#" data-toggle="tooltip" title="Reply">
+            <i class="bi bi-reply"></i>
+          </a>
+          <a href="#" data-toggle="tooltip" title="Heart">
+            <i class="bi bi-heart"></i>
+          </a>
         </div>
       </div>
+
+      <div data-message-content><%= message.content %></div>
     </div>
+
     <% }) %>
   </div>
 
-  <div class="input-field container-fluid">
-    <form action="">
+  <div class="my-2">
+    <form action="" method="">
       <div class="input-group mb-3">
         <input
           name="content"
@@ -69,60 +44,41 @@
           aria-label="Type here"
         />
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="submit">Send</button>
+          <button class="btn btn-large btn-outline-dark" type="submit">Send</button>
         </div>
       </div>
     </form>
   </div>
 
-  <div class="container-fluid">
-    <h4>Online Users</h4>
-    <ul data-user-list></ul>
+  <hr>
+
+  <div class="px-2 py-4 my-2" id="online-users">
+    <div class="container">
+      <strong>Online</strong>
+      <ul data-user-list></ul>
+    </div>
   </div>
 </div>
 
-<template>
-  <div class="p-4" style="border-bottom: 0.5px solid rgba(255, 255, 255, 0.5)">
-    <div class="d-flex justify-content-between">
-      <div>
-        <span style="font-weight: 520" data-message-sender></span>
-        &nbsp;
-        <span class="" style="color: lime" data-message-content></span>
-      </div>
-
-      <div class="d-flex flex-column">
-        <span class="text-muted small" data-message-time></span>
-        <div class="d-flex justify-content-around my-2">
-          <button
-            class="btn btn-small btn-outline-light rounded action-button"
-            data-toggle="tooltip"
-            title="Like"
-          >
-            <small>
-              <i class="bi bi-hand-thumbs-up"></i>
-            </small>
-          </button>
-          <button
-            class="btn btn-small btn-outline-light rounded action-button"
-            data-toggle="tooltip"
-            title="Reply"
-          >
-            <small>
-              <i class="bi bi-reply"></i>
-            </small>
-          </button>
-          <button
-            class="btn btn-small btn-outline-light rounded action-button"
-            data-toggle="tooltip"
-            title="Heart"
-          >
-            <small>
-              <i class="bi bi-heart"></i>
-            </small>
-          </button>
-        </div>
+<template id="message-card-template">
+  <div class="shadow-sm p-3 my-3" data-message-container>
+    <div class="mb-1">
+      <span data-message-sender></span>&nbsp;
+      <span class="small" data-message-time></span>
+      <div class="float-right" data-message-actions>
+        <a href="#" data-toggle="tooltip" title="Like">
+          <i class="bi bi-hand-thumbs-up"></i>
+        </a>
+        <a href="#" data-toggle="tooltip" title="Reply">
+          <i class="bi bi-reply"></i>
+        </a>
+        <a href="#" data-toggle="tooltip" title="Heart">
+          <i class="bi bi-heart"></i>
+        </a>
       </div>
     </div>
+
+    <div data-message-content></div>
   </div>
 </template>
 
@@ -131,5 +87,6 @@
   const username = "<%= user.username %>";
 </script>
 
-<script type="text/javascript" src="/js/inbox.js"></script>
+<!-- <script type="text/javascript" src="/js/inbox.js"></script> -->
+
 <%- include('partials/footer') -%>

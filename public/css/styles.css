@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Mukta:wght@300&display=swap");
 
 :root {
   --card-bg-color: #b3e8e5;
@@ -8,10 +8,17 @@
 }
 
 body {
-  /* font-family: "Montserrat", sans-serif; */
-  font-family: 'Mukta', sans-serif;
+  font-family: "Mukta", sans-serif;
   background-color: var(--bg-color);
   color: var(--font-color);
+}
+
+a {
+  color: var(--font-color);
+}
+
+.nav-link:hover {
+  text-decoration: underline;
 }
 
 [data-message-list] {
@@ -27,7 +34,8 @@ body {
 }
 
 [data-message-sender] {
-  font-weight: 520;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
 }
 
 [data-message-content] {
@@ -37,11 +45,11 @@ body {
   width: 15%;
 }
 
-[data-message-actions] > a {
+div[data-message-actions] a {
   color: var(--font-color);
 }
 
-[data-message-actions] > a:hover {
+div[data-message-actions] a:hover {
   color: var(--bg-color);
 }
 
@@ -53,14 +61,23 @@ body {
   background-color: var(--card-bg-color);
 }
 
-input[type=text]{
+input[type="text"] {
   border: none;
 }
 
-input[type=text]:focus {
+input[type="text"]:focus {
   background-color: var(--card-bg-color);
 }
 
-button[type=submit] {
-  background-color: var();
+button[type="submit"] {
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  border-color: var(--font-color);
+  border-width: 1.5px;
+  border-radius: 5%;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--card-bg-color);
+  color: rgb(68, 68, 68);
 }

@@ -2,10 +2,11 @@ const { Message } = require("./models");
 const store = require("./store");
 
 function handleMessageReceived(data) {
-  const { sender_id, sender, content, time } = data;
+  const { sender_name, sender_id, sender, content, time } = data;
 
   const newMessage = new Message({
     sender_id,
+    sender_name,
     sender,
     content,
     time,

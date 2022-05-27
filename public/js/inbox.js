@@ -9,11 +9,20 @@ socket.emit("register", {
 const formElement = document.querySelector("form");
 const messageInput = document.querySelector("#content");
 const container = document.querySelector("[data-message-list]");
-const messageTemplate = document.querySelector("template#message-card-template");
+const messageTemplate = document.querySelector(
+  "template#message-card-template"
+);
 const userListElement = document.querySelector("[data-user-list]");
 
 function createMessageElement(message) {
   const clone = messageTemplate.content.cloneNode(true);
+  clone
+    .querySelector("[data-message-avatar]")
+    .setAttribute(
+      "src",
+      "https://ui-avatars.com/api/?background=82DBD8&name=" +
+        message.sender_name.split(" ").join("+")
+    );
   clone.querySelector("[data-message-sender]").innerText = message.sender;
   clone.querySelector("[data-message-content]").innerText = message.content;
   clone.querySelector("[data-message-time]").innerText = message.time;
@@ -30,6 +39,7 @@ formElement.addEventListener("submit", function (e) {
 
     socket.emit("message", {
       sender_id: user_id,
+      sender_name: full_name,
       socket_id: socket.id,
       content: messageInput.value,
       sender: username,

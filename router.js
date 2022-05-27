@@ -42,6 +42,7 @@ router.get("/inbox", isAuthenticated, (req, res) => {
     .limit(100)
     .exec()
     .then((messages) => {
+      console.log(messages)
       res.render("inbox", {
         user,
         messages,
@@ -72,6 +73,7 @@ router.get("/sign-in", (req, res) => {
 
 router.post("/sign-up", (req, res) => {
   console.log(req.body);
+  const name = req.body.name;
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
@@ -87,6 +89,7 @@ router.post("/sign-up", (req, res) => {
       .hash(password, saltRounds)
       .then((passwordHash) => {
         user = new User({
+          name: name,
           email: email,
           password: passwordHash,
           username: username,

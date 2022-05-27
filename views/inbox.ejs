@@ -5,29 +5,62 @@
     <h2>Messenger</h2>
   </center>
   <div data-message-list>
-    <% messages.forEach(function(message){ %>
+    <% if(!messages || messages.length == 0) { %>
+    <p>No Messages!</p>
+    <% } %> <% messages.forEach(function(message){ %>
 
-    <div class="shadow-sm p-3 my-3" data-message-container>
-      <div class="mb-1">
-        <span data-message-sender><%= message.sender %></span>&nbsp;
-        <span class="small" data-message-time
-          ><%= new Date(message.time).toLocaleString() %></span
-        >
-        <div class="float-right" data-message-actions>
-          <a href="#" data-toggle="tooltip" title="Like">
-            <i class="bi bi-hand-thumbs-up"></i>
-          </a>
-          <a href="#" data-toggle="tooltip" title="Reply">
-            <i class="bi bi-reply"></i>
-          </a>
-          <a href="#" data-toggle="tooltip" title="Heart">
-            <i class="bi bi-heart"></i>
-          </a>
+    <!-- message card -->
+    <div class="media shadow-sm p-2 my-2" data-message-container>
+      <!-- avatar -->
+      <img
+        src="https://ui-avatars.com/api/?background=82DBD8&name=<%= message.sender_name.split(' ').join('+') %>"
+        alt=""
+        class="img-fluid rounded-circle mr-3"
+      />
+      <!-- message body -->
+      <div class="media-body">
+        <!-- message title -->
+        <div class="mb-1">
+          <!-- message sender -->
+          <span class="strong" data-message-sender><%= message.sender %></span
+          >&nbsp;
+          <!-- message time -->
+          <span class="small" data-message-time
+            ><%= new Date(message.time).toLocaleString() %></span
+          >
         </div>
-      </div>
 
-      <div data-message-content><%= message.content %></div>
+        <!-- message content -->
+        <div data-message-content><%= message.content %></div>
+
+        <!-- message action buttons -->
+        <div class="p-2 d-flex justify-content-between" data-message-actions>
+          <!-- like button -->
+          <div>
+            <a href="#" data-toggle="tooltip" title="Like">
+              <i class="bi bi-hand-thumbs-up"></i>
+            </a>
+          </div>
+
+          <!-- reply button -->
+          <div>
+            <a href="#" data-toggle="tooltip" title="Reply">
+              <i class="bi bi-reply"></i>
+            </a>
+          </div>
+
+          <!-- heart button -->
+          <div>
+            <a href="#" data-toggle="tooltip" title="Heart">
+              <i class="bi bi-heart"></i>
+            </a>
+          </div>
+        </div>
+        <!-- end message actions -->
+      </div>
+      <!-- end message body -->
     </div>
+    <!-- end message card -->
 
     <% }) %>
   </div>
@@ -44,13 +77,15 @@
           aria-label="Type here"
         />
         <div class="input-group-append">
-          <button class="btn btn-large btn-outline-dark" type="submit">Send</button>
+          <button class="btn btn-large btn-outline-dark" type="submit">
+            Send
+          </button>
         </div>
       </div>
     </form>
   </div>
 
-  <hr>
+  <hr />
 
   <div class="px-2 py-4 my-2" id="online-users">
     <div class="container">
@@ -61,32 +96,64 @@
 </div>
 
 <template id="message-card-template">
-  <div class="shadow-sm p-3 my-3" data-message-container>
-    <div class="mb-1">
-      <span data-message-sender></span>&nbsp;
-      <span class="small" data-message-time></span>
-      <div class="float-right" data-message-actions>
-        <a href="#" data-toggle="tooltip" title="Like">
-          <i class="bi bi-hand-thumbs-up"></i>
-        </a>
-        <a href="#" data-toggle="tooltip" title="Reply">
-          <i class="bi bi-reply"></i>
-        </a>
-        <a href="#" data-toggle="tooltip" title="Heart">
-          <i class="bi bi-heart"></i>
-        </a>
+  <!-- message card -->
+  <div class="media shadow-sm p-2 my-2" data-message-container>
+    <!-- avatar -->
+    <img
+      src="https://ui-avatars.com/api/?background=82DBD8"
+      alt=""
+      class="img-fluid rounded-circle mr-3"
+      data-message-avatar
+    />
+    <!-- message body -->
+    <div class="media-body">
+      <!-- message title -->
+      <div class="mb-1">
+        <!-- message sender -->
+        <span class="strong" data-message-sender></span>&nbsp;
+        <!-- message time -->
+        <span class="small" data-message-time></span>
       </div>
-    </div>
 
-    <div data-message-content></div>
+      <!-- message content -->
+      <div data-message-content></div>
+
+      <!-- message action buttons -->
+      <div class="p-2 d-flex justify-content-between" data-message-actions>
+        <!-- like button -->
+        <div>
+          <a href="#" data-toggle="tooltip" title="Like">
+            <i class="bi bi-hand-thumbs-up"></i>
+          </a>
+        </div>
+
+        <!-- reply button -->
+        <div>
+          <a href="#" data-toggle="tooltip" title="Reply">
+            <i class="bi bi-reply"></i>
+          </a>
+        </div>
+
+        <!-- heart button -->
+        <div>
+          <a href="#" data-toggle="tooltip" title="Heart">
+            <i class="bi bi-heart"></i>
+          </a>
+        </div>
+      </div>
+      <!-- end message actions -->
+    </div>
+    <!-- end message body -->
   </div>
+  <!-- end message card -->
 </template>
 
 <script type="text/javascript">
+  const full_name = "<%= user.name %>";
   const user_id = "<%= user._id %>";
   const username = "<%= user.username %>";
 </script>
 
-<!-- <script type="text/javascript" src="/js/inbox.js"></script> -->
+<script type="text/javascript" src="/js/inbox.js"></script>
 
 <%- include('partials/footer') -%>

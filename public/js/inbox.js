@@ -8,8 +8,17 @@ socket.emit("register", {
 
 const formElement = document.querySelector("form");
 const messageInput = document.querySelector("#content");
-const messageListElement = document.querySelector("[data-messages]");
-const container = document.querySelector(".message-container");
+const container = document.querySelector("[data-message-container]");
+const messageTemplate = document.getElementsByTagName("template")[0];
+const userListElement = document.querySelector("[data-user-list]");
+
+function createMessageElement(message) {
+  const clone = messageTemplate.content.cloneNode(true);
+  clone.querySelector("[data-message-sender]").innerText = message.sender;
+  clone.querySelector("[data-message-content]").innerText = message.content;
+  clone.querySelector("[data-message-time]").innerText = message.time;
+  return clone;
+}
 
 container.scrollTop = container.scrollHeight; // scroll div
 
@@ -33,21 +42,11 @@ socket.on("message", function (data) {
   if (data.time) {
     data.time = new Date(data.time).toLocaleString();
   }
-
-  html = "";
-  html += "<li class='messages list-group-item'>";
-  html += "<strong>" + data.sender + "</strong> ";
-  html += data.content;
-  html += "<span>" + data.time + "</span>";
-  html += "</li>";
-  // console.log(html);
-  messageListElement.innerHTML += html;
-
+  messageElement = createMessageElement(data);
+  container.appendChild(messageElement);
   container.scrollTop = container.scrollHeight; // scroll div
   messageInput.value = ""; // clear message now
 });
-
-const userListElement = document.querySelector("[data-user-list]");
 
 socket.on("users", function (data) {
   console.log("online users: ", data.users);

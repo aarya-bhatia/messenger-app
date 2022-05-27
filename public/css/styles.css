@@ -1,7 +1,13 @@
+:root {
+  --bg-color: #B3E8E5;
+  --card-bg-color: #82DBD8;
+  --font-color: #2a818e;
+}
+
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: #222831;
-  color: white;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .root {
@@ -10,37 +16,12 @@ body {
 }
 
 .navbar-brand {
-  font-family: 'Piedra', cursive;
+  font-family: "Piedra", cursive;
 }
 
 .message-container {
-  margin: 0;
-  background-color: #393e46;
   height: 70vh;
   overflow: scroll;
-}
-
-.messages {
-  background-color: #222831;
-  margin: 0;
-}
-
-li {
-  font-size: 0.9rem;
-}
-
-li:nth-child(odd) {
-  color: lime;
-}
-
-li.messages:nth-child(even) {
-  background-color: #393e46;
-}
-
-.messages span {
-  float: right;
-  font-size: 0.8rem;
-  color: white;
 }
 
 .input-field {
@@ -49,9 +30,13 @@ li.messages:nth-child(even) {
 }
 
 footer {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 #canvas {
   height: 200px;
+}
+
+.action-button {
+  border: 0.5px solid rgba(255, 255, 255, 0.7);
 }

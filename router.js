@@ -29,12 +29,6 @@ router.get("/", (req, res) => {
     .catch((apiErr) => next(apiErr));
 });
 
-// router.get("/clear-inbox", isAuthenticated, (req, res) => {
-//   Message.deleteMany({}).then(() => {
-//     return res.redirect("/");
-//   });
-// });
-
 router.get("/home", isAuthenticated, (req, res) => {
   const user = req.session.user;
   res.render("home", { user });

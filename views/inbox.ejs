@@ -1,19 +1,62 @@
 <%- include('partials/header') -%>
 <div class="root container-fluid">
   <%- include('partials/navigation') -%>
-  <div class="message-container container-fluid">
-    <ul class="messages-list list-group list-group-flush" data-messages>
-      <li class="messages list-group-item">Welcome to chat app!</li>
-      <% messages.forEach(function(message){ %>
-      <li class="messages list-group-item">
-        <strong><%= message.sender %> </strong>
-        <%= message.content %><span
-          ><%= new Date(message.time).toLocaleString() %></span
-        >
-      </li>
-      <% }); %>
-    </ul>
+  <div class="container-fluid message-container" data-message-container>
+    <% messages.forEach(function(message){ %>
+    <div
+      class="p-4"
+      style="border-bottom: 0.5px solid rgba(255, 255, 255, 0.5)"
+    >
+      <div class="d-flex justify-content-between">
+        <div>
+          <span style="font-weight: 520" data-message-sender
+            ><%= message.sender %></span
+          >
+          &nbsp;
+          <span class="" style="color: lime" data-message-content
+            ><%= message.content %></span
+          >
+        </div>
+
+        <div class="d-flex flex-column">
+          <span class="text-muted small" data-message-time
+            ><%= new Date(message.time).toLocaleString() %></span
+          >
+          <div class="d-flex justify-content-around my-2">
+            <button
+              class="btn btn-small btn-outline-light rounded action-button"
+              data-toggle="tooltip"
+              title="Like"
+            >
+              <small>
+                <i class="bi bi-hand-thumbs-up"></i>
+              </small>
+            </button>
+            <button
+              class="btn btn-small btn-outline-light rounded action-button"
+              data-toggle="tooltip"
+              title="Reply"
+            >
+              <small>
+                <i class="bi bi-reply"></i>
+              </small>
+            </button>
+            <button
+              class="btn btn-small btn-outline-light rounded action-button"
+              data-toggle="tooltip"
+              title="Heart"
+            >
+              <small>
+                <i class="bi bi-heart"></i>
+              </small>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }) %>
   </div>
+
   <div class="input-field container-fluid">
     <form action="">
       <div class="input-group mb-3">
@@ -38,9 +81,54 @@
   </div>
 </div>
 
+<template>
+  <div class="p-4" style="border-bottom: 0.5px solid rgba(255, 255, 255, 0.5)">
+    <div class="d-flex justify-content-between">
+      <div>
+        <span style="font-weight: 520" data-message-sender></span>
+        &nbsp;
+        <span class="" style="color: lime" data-message-content></span>
+      </div>
+
+      <div class="d-flex flex-column">
+        <span class="text-muted small" data-message-time></span>
+        <div class="d-flex justify-content-around my-2">
+          <button
+            class="btn btn-small btn-outline-light rounded action-button"
+            data-toggle="tooltip"
+            title="Like"
+          >
+            <small>
+              <i class="bi bi-hand-thumbs-up"></i>
+            </small>
+          </button>
+          <button
+            class="btn btn-small btn-outline-light rounded action-button"
+            data-toggle="tooltip"
+            title="Reply"
+          >
+            <small>
+              <i class="bi bi-reply"></i>
+            </small>
+          </button>
+          <button
+            class="btn btn-small btn-outline-light rounded action-button"
+            data-toggle="tooltip"
+            title="Heart"
+          >
+            <small>
+              <i class="bi bi-heart"></i>
+            </small>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script type="text/javascript">
-const user_id = "<%= user._id %>"
-const username = "<%= user.username %>"
+  const user_id = "<%= user._id %>";
+  const username = "<%= user.username %>";
 </script>
 
 <script type="text/javascript" src="/js/inbox.js"></script>

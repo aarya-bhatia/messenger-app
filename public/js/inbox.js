@@ -9,20 +9,15 @@ socket.emit("register", {
 const formElement = document.querySelector("form");
 const messageInput = document.querySelector("#content");
 const container = document.querySelector("[data-message-list]");
-const messageTemplate = document.querySelector(
-  "template#message-card-template"
-);
+const messageTemplate = document.querySelector("template#message-card-template");
 const userListElement = document.querySelector("[data-user-list]");
 
 function createMessageElement(message) {
+  console.log('Message author: ' + message.sender_name);
   const clone = messageTemplate.content.cloneNode(true);
   clone
     .querySelector("[data-message-avatar]")
-    .setAttribute(
-      "src",
-      "https://ui-avatars.com/api/?background=82DBD8&name=" +
-        message.sender_name.split(" ").join("+")
-    );
+    .setAttribute("src", "https://ui-avatars.com/api/?background=82DBD8&name=" + (message.sender_name.split(' ').join('+')));
   clone.querySelector("[data-message-sender]").innerText = message.sender;
   clone.querySelector("[data-message-content]").innerText = message.content;
   clone.querySelector("[data-message-time]").innerText = message.time;
@@ -60,7 +55,7 @@ socket.on("message", function (data) {
 
 // updates list of online users
 socket.on("users", function (data) {
-  console.log("online users: ", data.users);
+  // console.log("online users: ", data.users);
   html = "";
   for (const user of data.users) {
     el = "<li>" + user.username + "</li>";

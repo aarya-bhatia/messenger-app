@@ -1,7 +1,6 @@
 <%- include('partials/header') %>
-<div class="d-flex w-100 h-100 p-3 mx-auto flex-column">
-  <header class="mb-auto">
-    <div class="inner">
+<div class="d-flex p-3 flex-column container-fluid text-center">
+  <div class="text-left">
       <img
         class="img-fluid"
         src="/images/logo.png"
@@ -11,9 +10,8 @@
         alt="logo"
         loading="lazy"
       />
-    </div>
-  </header>
-  <main role="main" class="mt-4">
+  </div>
+  <div class="mt-4">
     <h1 class="cover-heading">
       <% if(author) { %> <%= author %> <% } else { %> HAPPINESS IS <% } %>
     </h1>
@@ -25,7 +23,7 @@
       <a href="/sign-up" class="btn btn-lg btn-secondary">Sign Up</a>
       <a href="/sign-in" class="btn btn-lg btn-primary">Sign In</a>
     </p>
-  </main>
+  </div>
 </div>
 
 

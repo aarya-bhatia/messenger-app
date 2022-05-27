@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300&display=swap');
+
 :root {
   --card-bg-color: #b3e8e5;
   --bg-color: #82dbd8;
@@ -6,7 +8,8 @@
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  /* font-family: "Montserrat", sans-serif; */
+  font-family: 'Mukta', sans-serif;
   background-color: var(--bg-color);
   color: var(--font-color);
 }

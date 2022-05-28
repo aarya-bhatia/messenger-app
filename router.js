@@ -24,7 +24,11 @@ function isAuthenticated(req, res, next) {
 router.get("/", (req, res) => {
   axios.get(dailyQuoteAPI).then((apiRes) => {
     quote = apiRes.data[0];
-    return res.render("welcome", { quote: quote.q, author: quote.a });
+    return res.render("welcome", {
+      quote: quote.q,
+      author: quote.a,
+      user: req.session.user || null,
+    });
   });
 });
 

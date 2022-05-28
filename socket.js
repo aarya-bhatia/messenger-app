@@ -42,17 +42,25 @@ module.exports = function (server) {
     socket.on("disconnect", function () {
       console.log("user has disconnected: " + socket.id);
 
+      let message = null
+
       if (store.online[socket.id]) {
-        user_id = store.online[socket.id].user_id;
+        const user_id = store.online[socket.id].user_id;
+        const username = store.online[socket.id].username;
 
         if (user_id) {
           store.last_seen[user_id] = new Date();
         }
+
+        message = username + " has left the chat"
       }
 
-      delete store.online[socket.id];
+      io.emit("users", {
+        users: getOnlineUsers(),
+        message
+      });
 
-      io.emit("users", { users: getOnlineUsers() });
+      delete store.online[socket.id];
     });
 
     /**
@@ -69,9 +77,8 @@ module.exports = function (server) {
             time: { $gte: store.last_seen[data.user_id] },
           }).then((result) => {
             console.log(result + " new messages");
-            io.to(socket.id).emit('status', { num_messages: result })
+            io.to(socket.id).emit("status", { num_messages: result });
           });
-
         }
       }
     });
@@ -83,7 +90,10 @@ module.exports = function (server) {
         store.last_seen[data.user_id] = new Date();
       }
 
-      io.emit("users", { users: getOnlineUsers() });
+      io.emit("users", {
+        users: getOnlineUsers(),
+        message: data.username + " has joined the chat",
+      });
     });
 
     socket.on("message", function (data) {

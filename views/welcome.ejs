@@ -19,8 +19,12 @@
       <% if(quote){ %><%= quote %><% } else { %> a good coffee. <% } %>
     </p>
     <p class="lead">
+      <% if(user) { %>
+      <a href="/home" class="btn btn-lg custom-btn">Home</a>
+      <% } else { %>
       <a href="/sign-up" class="btn btn-lg custom-btn">Sign Up</a>
       <a href="/sign-in" class="btn btn-lg custom-btn">Sign In</a>
+      <% } %>
     </p>
   </div>
 </div>

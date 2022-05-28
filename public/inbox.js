@@ -60,15 +60,28 @@
     messageInput.value = ""; // clear message now
   });
 
+  function createAlert(message, type)
+  {
+    const e = document.createElement('div')
+    e.classList.add('alert')
+    e.classList.add(type)
+    e.innerText = message
+    return e
+  }
+
   // updates list of online users
   socket.on("users", function (data) {
-    // console.log("online users: ", data.users);
+    console.log('users', data)
     html = "";
     for (const user of data.users) {
-      el = "<li>" + user.username + "</li>";
-      html += el;
+      html += "<li>" + user.username + "</li>";
     }
+
     userListElement.innerHTML = html;
+
+    if(data.message) {
+      container.appendChild(createAlert(data.message, 'alert-warning'));
+    }
   });
 
   const base_url = location.protocol + "//" + location.host;
@@ -76,8 +89,6 @@
   fetch(base_url + "/api/messages")
     .then((messages) => messages.json())
     .then((messages) => {
-      console.log(messages);
-
       container.innerHTML = ""; // to remove spinner
 
       for (const message of messages) {

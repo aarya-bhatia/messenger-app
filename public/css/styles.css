@@ -5,13 +5,13 @@
   --bg-color: #82dbd8;
   --font-color: #26727e;
   --message-color: #ed3dc1;
-  --pale-yellow: #fbfb82;
 }
 
 body {
   font-family: "Mukta", sans-serif;
   background-color: var(--bg-color);
   color: var(--font-color);
+  font-size: 105%;
 }
 
 a {
@@ -70,6 +70,10 @@ input[type="text"]:focus {
   background-color: var(--card-bg-color);
 }
 
+#content {
+  height: 50px;
+}
+
 button[type="submit"] {
   background-color: var(--bg-color);
   color: var(--font-color);
@@ -83,30 +87,26 @@ button[type="submit"]:hover {
   color: rgb(68, 68, 68);
 }
 
-.white-btn {
+.custom-btn {
   background-color: white;
-  color: teal;
-}
-
-.yellow-btn {
-  background-color: var(--pale-yellow);
-  color: teal;
+  color: var(--font-color);
+  border-color: white;
 }
 
 .custom-btn:hover {
-  background-color: teal;
+  background-color: var(--font-color);
   color: white;
-  border-color: teal;
+  border-color: var(--font-color);
 }
 
 .form-btn {
-  background-color: teal;
+  background-color: var(--font-color);
   color: white;
-  border-color: teal;
+  border-color: var(--font-color);
 }
 
 .form-btn:hover {
   background-color: white;
-  color: teal;
+  color: var(--font-color);
   border-color: rgba(255, 255, 255, 0.815);
 }

@@ -1,7 +1,6 @@
 <%- include('partials/header') -%>
 
 <div class="container">
-
   <center class="my-4">
     <h2><a href="/" style="text-decoration: none">Messenger</a></h2>
   </center>
@@ -50,12 +49,10 @@
     </div>
   </div>
   <!-- end user list -->
-
 </div>
 <!-- end container -->
 
 <template id="message-card-template">
-  <!-- message card -->
   <div class="media shadow-sm p-2 my-2" data-message-container>
     <!-- avatar -->
     <img
@@ -78,34 +75,30 @@
         <!-- message content -->
         <div data-message-content></div>
         <!-- message action buttons -->
-        <div class="p-2 d-flex justify-content-around" data-message-actions>
-          <!-- like button -->
+        <!-- <div class="p-2 d-flex justify-content-around" data-message-actions>
           <div>
             <a href="#" data-toggle="tooltip" title="Like">
               <i class="bi bi-hand-thumbs-up"></i>
             </a>
           </div>
 
-          <!-- reply button -->
           <div>
             <a href="#" data-toggle="tooltip" title="Reply">
               <i class="bi bi-reply"></i>
             </a>
           </div>
 
-          <!-- heart button -->
           <div>
             <a href="#" data-toggle="tooltip" title="Heart">
               <i class="bi bi-heart"></i>
             </a>
           </div>
-        </div>
+        </div> -->
         <!-- end message actions -->
       </div>
     </div>
     <!-- end message body -->
   </div>
-  <!-- end message card -->
 </template>
 
 <script type="text/javascript">

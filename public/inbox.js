@@ -76,14 +76,14 @@
   fetch(base_url + "/api/messages")
     .then((messages) => messages.json())
     .then((messages) => {
-      let html = ""
+      console.log(messages);
+
+      container.innerHTML = ""; // to remove spinner
 
       for (const message of messages) {
         message.time = new Date(message.time).toLocaleString();
-        html += createMessageElement(message);
+        container.appendChild(createMessageElement(message));
       }
-
-      container.innerHTML = html
 
       container.scrollTop = container.scrollHeight; // scroll div
     })

@@ -71,7 +71,7 @@
 
   // updates list of online users
   socket.on("users", function (data) {
-    console.log('users', data)
+    // console.log('users', data)
     html = "";
     for (const user of data.users) {
       html += "<li>" + user.username + "</li>";

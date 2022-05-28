@@ -34,7 +34,7 @@
         <div data-message-content><%= message.content %></div>
 
         <!-- message action buttons -->
-        <div class="p-2 d-flex justify-content-between" data-message-actions>
+        <div class="d-flex" data-message-actions>
           <!-- like button -->
           <div>
             <a href="#" data-toggle="tooltip" title="Like">
@@ -68,18 +68,21 @@
   <div class="my-2">
     <form action="" method="">
       <div class="input-group mb-3">
-        <input
+        <textarea
           name="content"
           id="content"
           type="text"
           class="form-control"
           placeholder="Type here"
           aria-label="Type here"
-        />
+          rows="2"
+        ></textarea>
         <div class="input-group-append">
-          <button class="btn btn-large btn-outline-dark" type="submit">
-            Send
-          </button>
+          <input
+            class="btn btn-large btn-light form-btn"
+            type="submit"
+            value="Send"
+          />
         </div>
       </div>
     </form>
@@ -89,7 +92,7 @@
 
   <div class="px-2 py-4 my-2" id="online-users">
     <div class="container">
-      <strong>Online</strong>
+      <h2>Online</h2>
       <ul data-user-list></ul>
     </div>
   </div>
@@ -119,7 +122,7 @@
       <div data-message-content></div>
 
       <!-- message action buttons -->
-      <div class="p-2 d-flex justify-content-between" data-message-actions>
+      <div class="p-2 d-flex justify-content-around" data-message-actions>
         <!-- like button -->
         <div>
           <a href="#" data-toggle="tooltip" title="Like">
@@ -154,6 +157,6 @@
   const username = "<%= user.username %>";
 </script>
 
-<script type="text/javascript" src="/js/inbox.js"></script>
+<!-- <script type="text/javascript" src="/js/inbox.js"></script> -->
 
 <%- include('partials/footer') -%>

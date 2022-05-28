@@ -5,6 +5,7 @@
   --bg-color: #82dbd8;
   --font-color: #26727e;
   --message-color: #ed3dc1;
+  --pale-yellow: #fbfb82;
 }
 
 body {
@@ -42,7 +43,6 @@ a {
 }
 
 [data-message-actions] {
-  width: 15%;
 }
 
 div[data-message-actions] a {
@@ -63,6 +63,7 @@ div[data-message-actions] a:hover {
 
 input[type="text"] {
   border: none;
+  background-color: var(--card-bg-color);
 }
 
 input[type="text"]:focus {
@@ -80,4 +81,32 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: var(--card-bg-color);
   color: rgb(68, 68, 68);
+}
+
+.white-btn {
+  background-color: white;
+  color: teal;
+}
+
+.yellow-btn {
+  background-color: var(--pale-yellow);
+  color: teal;
+}
+
+.custom-btn:hover {
+  background-color: teal;
+  color: white;
+  border-color: teal;
+}
+
+.form-btn {
+  background-color: teal;
+  color: white;
+  border-color: teal;
+}
+
+.form-btn:hover {
+  background-color: white;
+  color: teal;
+  border-color: rgba(255, 255, 255, 0.815);
 }

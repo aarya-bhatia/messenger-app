@@ -42,7 +42,6 @@ router.get("/inbox", isAuthenticated, (req, res) => {
     .limit(100)
     .exec()
     .then((messages) => {
-      console.log(messages)
       res.render("inbox", {
         user,
         messages,

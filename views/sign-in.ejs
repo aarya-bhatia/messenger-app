@@ -3,10 +3,9 @@
 <div class="container my-4">
   <h2 class="text-center">Sign In</h2>
   <div class="mb-4">
+    <p class="lead">Please fill in all fields.</p>
     <% if(message != "") { %>
-    <small class="">*<%= message %></small>
-    <% } else { %>
-    <small class="">Please fill in all fields</small>
+    <p><%= message %></p>
     <% } %>
   </div>
   <form action="/sign-in" method="POST" class="">
@@ -41,10 +40,9 @@
       </div>
     </div>
 
-    <div class="text-center">
-
-    <button type="submit" class="btn btn-large btn-primary">Submit</button>
-    </div>
+    <center>
+      <input type="submit" class="btn btn-large btn-light custom-btn" />
+    </center>
   </form>
 </div>
 

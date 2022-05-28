@@ -4,6 +4,7 @@ const saltRounds = 10;
 const axios = require("axios");
 const store = require("./store");
 const { User, Message } = require("./models");
+const { validationResult, body } = require("express-validator");
 
 router = express.Router();
 
@@ -19,7 +20,7 @@ function isAuthenticated(req, res, next) {
   }
 }
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   axios
     .get(dailyQuoteAPI)
     .then((apiRes) => {
@@ -29,12 +30,12 @@ router.get("/", (req, res) => {
     .catch((apiErr) => next(apiErr));
 });
 
-router.get("/home", isAuthenticated, (req, res) => {
+router.get("/home", isAuthenticated, (req, res, next) => {
   const user = req.session.user;
   res.render("home", { user });
 });
 
-router.get("/inbox", isAuthenticated, (req, res) => {
+router.get("/inbox", isAuthenticated, (req, res, next) => {
   const user = req.session.user;
 
   Message.find({})
@@ -50,7 +51,7 @@ router.get("/inbox", isAuthenticated, (req, res) => {
     .catch((err) => next(err));
 });
 
-router.get("/sign-up", (req, res) => {
+router.get("/sign-up", (req, res, next) => {
   if (req.session.user) {
     return res.redirect("/home");
   }
@@ -60,7 +61,7 @@ router.get("/sign-up", (req, res) => {
   });
 });
 
-router.get("/sign-in", (req, res) => {
+router.get("/sign-in", (req, res, next) => {
   if (req.session.user) {
     return res.redirect("/home");
   }
@@ -70,46 +71,51 @@ router.get("/sign-in", (req, res) => {
   });
 });
 
-router.post("/sign-up", (req, res) => {
-  console.log(req.body);
-  const name = req.body.name;
-  const username = req.body.username;
-  const password = req.body.password;
-  const email = req.body.email;
+router.post(
+  "/sign-up",
+  body("name").not().isEmpty().trim(),
+  body("username").custom((username) => {
+    return User.findOne({
+      username: username,
+    }).then((user) => {
+      if (user) {
+        return Promise.reject("username is already in use");
+      }
+    });
+  }),
+  body("password").isLength({ min: 6 }),
+  body("email").isEmail().normalizeEmail(),
+  (req, res, next) => {
+    /* check input validation errors */
+    const errors = validationResult(req);
 
-  User.findOne({ username }).then((user) => {
-    if (user) {
-      return res.render("sign-up", {
-        message: "Sorry, this username is taken",
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
       });
     }
+
+    const name = req.body.name;
+    const username = req.body.username;
+    const password = req.body.password;
+    const email = req.body.email;
 
     bcrypt
       .hash(password, saltRounds)
       .then((passwordHash) => {
-        user = new User({
+        User.create({
           name: name,
           email: email,
           password: passwordHash,
           username: username,
+        }).then((user) => {
+          req.session.user = user;
+          return res.redirect("/home");
         });
-
-        console.log(user);
-
-        user
-          .save()
-          .then(() => {
-            req.session.user = user;
-            return res.redirect("/home");
-          })
-
-          .catch((err) => {
-            next(err);
-          });
       })
       .catch((err) => next(err));
-  });
-});
+  }
+);
 
 router.post("/sign-in", (req, res, next) => {
   console.log(req.body);
@@ -153,13 +159,13 @@ router.post("/sign-in", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/sign-out", (req, res) => {
+router.get("/sign-out", (req, res, next) => {
   req.session.destroy(() => {
     return res.redirect("/");
   });
 });
 
-router.get("/var", (req, res) => {
+router.get("/var", (req, res, next) => {
   res.json({
     online: store.online,
     last_seen: store.last_seen,

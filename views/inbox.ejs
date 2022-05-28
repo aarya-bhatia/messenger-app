@@ -1,40 +1,84 @@
 <%- include('partials/header') -%>
 
 <div class="container">
+
   <center class="my-4">
-    <h2><a href="/" style="text-decoration: none;">Messenger</a></h2>
+    <h2><a href="/" style="text-decoration: none">Messenger</a></h2>
   </center>
+
+  <!-- messages window -->
   <div data-message-list>
-    <% if(!messages || messages.length == 0) { %>
-    <p>No Messages!</p>
-    <% } %> <% messages.forEach(function(message){ %>
+    <center>
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </center>
+  </div>
+  <!-- end window -->
 
-    <!-- message card -->
-    <div class="media shadow-sm p-2 my-2" data-message-container>
-      <!-- avatar -->
-      <img
-        src="https://ui-avatars.com/api/?background=82DBD8&name=<%= message.sender_name.split(' ').join('+') %>"
-        alt=""
-        class="img-fluid rounded-circle mr-3"
-      />
-      <!-- message body -->
-      <div class="media-body">
-        <!-- message title -->
-        <div class="mb-1">
-          <!-- message sender -->
-          <span class="strong" data-message-sender><%= message.sender %></span
-          >&nbsp;
-          <!-- message time -->
-          <span class="small" data-message-time
-            ><%= new Date(message.time).toLocaleString() %></span
-          >
+  <!-- Send message form -->
+  <div class="my-2">
+    <form action="" method="">
+      <div class="input-group mb-3">
+        <input
+          name="content"
+          id="content"
+          type="text"
+          class="form-control"
+          placeholder="Type here"
+          aria-label="Type here"
+        />
+        <div class="input-group-append">
+          <input
+            class="btn btn-large btn-light form-btn"
+            type="submit"
+            value="Send"
+          />
         </div>
+      </div>
+    </form>
+  </div>
+  <!-- end message form -->
 
+  <hr />
+
+  <!-- online users list -->
+  <div class="px-2 py-4 my-2" id="online-users">
+    <div class="container">
+      <h2>Online</h2>
+      <ul data-user-list></ul>
+    </div>
+  </div>
+  <!-- end user list -->
+
+</div>
+<!-- end container -->
+
+<template id="message-card-template">
+  <!-- message card -->
+  <div class="media shadow-sm p-2 my-2" data-message-container>
+    <!-- avatar -->
+    <img
+      src="https://ui-avatars.com/api/?background=82DBD8"
+      alt=""
+      class="img-fluid rounded-circle mr-3"
+      data-message-avatar
+    />
+    <!-- message body -->
+    <div class="media-body">
+      <!-- message title -->
+      <div class="mb-1">
+        <!-- message sender -->
+        <span class="strong" data-message-sender></span>&nbsp;
+        <!-- message time -->
+        <span class="small" data-message-time></span>
+      </div>
+
+      <div class="d-flex">
         <!-- message content -->
-        <div data-message-content><%= message.content %></div>
-
+        <div data-message-content></div>
         <!-- message action buttons -->
-        <div class="d-flex" data-message-actions>
+        <div class="p-2 d-flex justify-content-around" data-message-actions>
           <!-- like button -->
           <div>
             <a href="#" data-toggle="tooltip" title="Like">
@@ -58,92 +102,6 @@
         </div>
         <!-- end message actions -->
       </div>
-      <!-- end message body -->
-    </div>
-    <!-- end message card -->
-
-    <% }) %>
-  </div>
-
-  <div class="my-2">
-    <form action="" method="">
-      <div class="input-group mb-3">
-        <input
-          name="content"
-          id="content"
-          type="text"
-          class="form-control"
-          placeholder="Type here"
-          aria-label="Type here"
-        />
-        <div class="input-group-append">
-          <input
-            class="btn btn-large btn-light form-btn"
-            type="submit"
-            value="Send"
-          />
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <hr />
-
-  <div class="px-2 py-4 my-2" id="online-users">
-    <div class="container">
-      <h2>Online</h2>
-      <ul data-user-list></ul>
-    </div>
-  </div>
-</div>
-
-<template id="message-card-template">
-  <!-- message card -->
-  <div class="media shadow-sm p-2 my-2" data-message-container>
-    <!-- avatar -->
-    <img
-      src="https://ui-avatars.com/api/?background=82DBD8"
-      alt=""
-      class="img-fluid rounded-circle mr-3"
-      data-message-avatar
-    />
-    <!-- message body -->
-    <div class="media-body">
-      <!-- message title -->
-      <div class="mb-1">
-        <!-- message sender -->
-        <span class="strong" data-message-sender></span>&nbsp;
-        <!-- message time -->
-        <span class="small" data-message-time></span>
-      </div>
-
-      <!-- message content -->
-      <div data-message-content></div>
-
-      <!-- message action buttons -->
-      <div class="p-2 d-flex justify-content-around" data-message-actions>
-        <!-- like button -->
-        <div>
-          <a href="#" data-toggle="tooltip" title="Like">
-            <i class="bi bi-hand-thumbs-up"></i>
-          </a>
-        </div>
-
-        <!-- reply button -->
-        <div>
-          <a href="#" data-toggle="tooltip" title="Reply">
-            <i class="bi bi-reply"></i>
-          </a>
-        </div>
-
-        <!-- heart button -->
-        <div>
-          <a href="#" data-toggle="tooltip" title="Heart">
-            <i class="bi bi-heart"></i>
-          </a>
-        </div>
-      </div>
-      <!-- end message actions -->
     </div>
     <!-- end message body -->
   </div>
@@ -151,11 +109,11 @@
 </template>
 
 <script type="text/javascript">
-  const full_name = "<%= user.name %>";
+  const full_name = "<%= user.first_name %> <%= user.last_name %>";
   const user_id = "<%= user._id %>";
   const username = "<%= user.username %>";
 </script>
 
-<!-- <script type="text/javascript" src="/inbox.js"></script> -->
+<script type="text/javascript" src="/inbox.js"></script>
 
 <%- include('partials/footer') -%>

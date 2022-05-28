@@ -1,10 +1,13 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  name: String,
+  first_name: String,
+  last_name: String,
   email: String,
   password: String,
-  username: String
+  username: String,
+}, {
+  timestamps: true
 });
 
 const messageSchema = new mongoose.Schema({
@@ -12,21 +15,13 @@ const messageSchema = new mongoose.Schema({
   sender: String,
   sender_name: String,
   content: String,
-  time: Date
-});
-
-const notificationSchema = new mongoose.Schema({
-  user_id: mongoose.Types.ObjectId,
-  title: String,
-  description: String,
   time: Date,
-  seen: Boolean
 });
 
 const User = mongoose.model("User", userSchema);
 const Message = mongoose.model("Message", messageSchema);
 
 module.exports = {
-    User,
-    Message
-}
+  User,
+  Message,
+};

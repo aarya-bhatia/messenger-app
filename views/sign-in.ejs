@@ -2,24 +2,19 @@
 
 <div class="container my-4">
   <h2 class="text-center">Sign In</h2>
-  <div class="mb-4">
-    <p class="lead">Please fill in all fields.</p>
-    <% if(message != "") { %>
-    <p><%= message %></p>
-    <% } %>
-  </div>
+  <p class="lead mb-4">Please fill in all fields.</p>
   <form action="/sign-in" method="POST" class="">
     <div class="row form-group">
       <div class="col-2">
-        <label for="email">Email</label>
+        <label for="username">Username</label>
       </div>
       <div class="col-10">
         <input
-          name="email"
-          id="email"
-          type="email"
+          name="username"
+          id="username"
+          type="text"
           class="form-control"
-          placeholder="Email Address"
+          placeholder="Username or Email"
           required
         />
       </div>
@@ -44,6 +39,15 @@
       <input type="submit" class="btn btn-large btn-light custom-btn" />
     </center>
   </form>
+
+  <!-- Errors -->
+  <div class="mt-2">
+    <% if(message) { %>
+    <div class="alert alert-danger"><%= message %></div>
+    <% } if(errors) { for(const error of errors){ %>
+    <div class="alert alert-danger"><%= error.msg %></div>
+    <% } } %>
+  </div>
 </div>
 
 <%- include('partials/footer') -%>

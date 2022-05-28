@@ -1,4 +1,4 @@
-var greeting = ("Hello " + name).split('').join(' ')
+var greeting = ("Hello " + first_name).split('').join(' ')
 var index = 0;
 
 function setup() {

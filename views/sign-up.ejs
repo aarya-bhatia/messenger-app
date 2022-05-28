@@ -2,24 +2,35 @@
 
 <div class="container my-4">
   <h2 class="text-center">Sign Up</h2>
-  <div class="mb-4">
-    <p class="lead">Please fill in all fields.</p>
-    <% if(message != "") { %>
-    <p><%= message %></p>
-    <% } %>
-  </div>
+  <p class="lead mb-4">Please fill in all fields.</p>
   <form action="/sign-up" method="POST" class="">
     <div class="row form-group">
       <div class="col-2">
-        <label for="name">Name</label>
+        <label for="first_name">First Name</label>
       </div>
       <div class="col-10">
         <input
-          name="name"
-          id="name"
+          name="first_name"
+          id="first_name"
           type="text"
           class="form-control"
-          placeholder="name"
+          placeholder="First Name"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-2">
+        <label for="last_name">Last Name</label>
+      </div>
+      <div class="col-10">
+        <input
+          name="last_name"
+          id="last_name"
+          type="text"
+          class="form-control"
+          placeholder="Last Name"
           required
         />
       </div>
@@ -77,6 +88,15 @@
       <input type="submit" class="btn btn-large btn-light custom-btn" />
     </center>
   </form>
+
+  <!-- Errors -->
+  <div class="mt-2">
+    <% if(errors) { %>
+    <% for(const error of errors){ %>
+      <div class="alert alert-danger"><%= error.msg %></div>
+    <% } %>
+    <% } %>
+  </div>
 </div>
 
 <%- include('partials/footer') -%>

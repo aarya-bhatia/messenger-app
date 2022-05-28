@@ -1,27 +1,25 @@
 <%- include('partials/header') %>
-<!-- library and scripts for animation -->
-<script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
-<script type="text/javascript">
-const user_id = "<%= user._id %>"
-const username = "<%= user.username %>"
-const name = "<%= user.name %>"
-</script>
-<script src="/homepage_animation.js"></script>
-
 <div class="root container-fluid">
-  <!-- nav -->
   <%- include('partials/navigation') %>
 
   <div class="message-container container-fluid">
-    <!-- animation canvas -->
     <div id="canvas"></div>
 
     <center>
-      <p class="lead">You have <span id="new-messages-label">0</span> new messages.</p>
+      <p class="lead">
+        You have <span id="new-messages-label">0</span> new messages.
+      </p>
       <a href="/inbox" class="btn btn-large btn-light custom-btn">Inbox</a>
     </center>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+<script type="text/javascript">
+  const user_id = "<%= user._id %>";
+  const username = "<%= user.username %>";
+  const first_name = "<%= user.first_name %>";
+</script>
+<script src="/animation.js"></script>
 <script type="text/javascript" src="/notifications.js"></script>
 <%- include('partials/footer') %>

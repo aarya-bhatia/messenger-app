@@ -1,32 +1,32 @@
 <%- include('partials/header') %>
 <div class="d-flex p-3 flex-column container-fluid text-center">
   <div class="text-left">
-      <img
-        class="img-fluid"
-        src="/images/logo.png"
-        width="30"
-        height="30"
-        class="d-inline-block align-top"
-        alt="logo"
-        loading="lazy"
-      />
+    <img
+      class="img-fluid"
+      src="/images/logo.png"
+      width="30"
+      height="30"
+      class="d-inline-block align-top"
+      alt="logo"
+      loading="lazy"
+    />
   </div>
   <div class="mt-4">
     <h1>
       <% if(author) { %> <%= author %> <% } else { %> HAPPINESS IS <% } %>
     </h1>
     <p class="lead">
-      <% if(quote){ %><%= quote %><% } else { %>  ...a good coffee and a
-      good chat. <% } %>
+      <% if(quote){ %><%= quote %><% } else { %> ...a good coffee and a good
+      chat. <% } %>
     </p>
     <p class="lead">
-      <a href="/sign-up" class="btn btn-lg custom-btn white-btn">Sign Up</a>
-      <a href="/sign-in" class="btn btn-lg custom-btn yellow-btn" btn-secondary>Sign In</a>
+      <a href="/sign-up" class="btn btn-lg custom-btn">Sign Up</a>
+      <a href="/sign-in" class="btn btn-lg custom-btn">Sign In</a>
     </p>
   </div>
 </div>
 
-
-  <%- include('partials/footer', { html: '<span class="text-muted small">Inspirational quotes provided by <a href="https://zenquotes.io/" target="_blank">ZenQuotes API</a></span>' }) -%>
-
-  
+<%- include('partials/footer', { html: '<span class="text-muted small"
+  >Inspirational quotes provided by
+  <a href="https://zenquotes.io/" target="_blank">ZenQuotes API</a></span
+>' }) -%>

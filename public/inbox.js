@@ -1,13 +1,15 @@
 (function () {
-  let socket = io.connect();
-
   const formElement = document.querySelector("form");
   const messageInput = document.querySelector("#content");
   const container = document.querySelector("[data-message-list]");
-  const messageTemplate = document.querySelector(
-    "template#message-card-template"
-  );
+  const messageTemplate = document.querySelector("#message-card-template");
   const userListElement = document.querySelector("[data-user-list]");
+  let loading = false;
+  let socket = io.connect();
+
+  function scrollToBottom() {
+    container.scrollTop = container.scrollHeight; // scroll div
+  }
 
   function createAlert(message, type) {
     const e = document.createElement("div");
@@ -18,8 +20,8 @@
   }
 
   function createMessageElement(message) {
-    // console.log("Message author: " + message.sender_name);
     const clone = messageTemplate.content.cloneNode(true);
+
     clone
       .querySelector("[data-message-avatar]")
       .setAttribute(
@@ -27,13 +29,15 @@
         "https://ui-avatars.com/api/?background=82DBD8&name=" +
           message.sender_name.split(" ").join("+")
       );
+
     clone.querySelector("[data-message-sender]").innerText = message.sender;
     clone.querySelector("[data-message-content]").innerText = message.content;
     clone.querySelector("[data-message-time]").innerText = message.time;
+
     return clone;
   }
 
-  formElement.addEventListener("submit", function (e) {
+  function handleFormSubmit(e) {
     e.preventDefault();
 
     if (messageInput.value) {
@@ -48,7 +52,7 @@
         time: new Date(),
       });
     }
-  });
+  }
 
   function fetchMessages() {
     const base_url = location.protocol + "//" + location.host;
@@ -65,12 +69,15 @@
           container.appendChild(createMessageElement(message));
         }
 
-        container.scrollTop = container.scrollHeight; // scroll div
+        scrollToBottom();
       })
       .catch((err) => {
         console.log(err);
         document.querySelector("[data-message-list]").innerHTML =
           '<p class="lead">Sorry, we are unable to load the messages. Please refresh the page to try again.</p>';
+      })
+      .finally(() => {
+        loading = false;
       });
   }
 
@@ -82,18 +89,24 @@
     });
   }
 
-  socket.on("message", function (data) {
+  function handleMessage(data) {
     if (data.time) {
       data.time = new Date(data.time).toLocaleString();
     }
     messageElement = createMessageElement(data);
     container.appendChild(messageElement);
-    container.scrollTop = container.scrollHeight; // scroll div
     messageInput.value = ""; // clear message now
-  });
+    scrollToBottom();
+  }
 
-  // updates list of online users
-  socket.on("users", function (data) {
+  function addServerMessage(message) {
+    if (container.querySelector("#spinner")) {
+      container.innerHTML = ""; // to remove spinner
+    }
+    container.appendChild(createAlert(message, "alert-warning"));
+  }
+
+  function handleUsers(data) {
     // console.log('users', data)
     html = "";
     for (const user of data.users) {
@@ -103,13 +116,20 @@
     userListElement.innerHTML = html;
 
     if (data.message) {
-      if (container.querySelector("#spinner")) {
-        container.innerHTML = ""; // to remove spinner
-      }
-      container.appendChild(createAlert(data.message, "alert-warning"));
+      addServerMessage(data.message);
+      scrollToBottom();
     }
-  });
+  }
 
-  fetchMessages();
+  formElement.addEventListener("submit", handleFormSubmit);
+
+  // Recieve new message
+  socket.on("message", handleMessage);
+
+  // updates list of online users
+  socket.on("users", handleUsers);
+
+  // Load messages for user on start up
+  if (!loading) fetchMessages();
   register();
 })();

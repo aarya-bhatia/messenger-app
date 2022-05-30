@@ -22,7 +22,7 @@ a {
 }
 
 [data-message-list] {
-  height: 70vh;
+  height: 65vh;
   overflow-y: scroll;
 }
 
@@ -34,8 +34,6 @@ a {
 }
 
 [data-message-sender] {
-  /* font-family: "Montserrat", sans-serif;
-  font-weight: 600; */
 }
 
 [data-message-content] {
@@ -88,24 +86,24 @@ button[type="submit"]:hover {
 
 .custom-btn {
   background-color: white;
-  color: var(--font-color);
   border-color: white;
+  color: var(--font-color);
 }
 
 .custom-btn:hover {
   background-color: var(--font-color);
-  color: white;
   border-color: var(--font-color);
+  color: white;
 }
 
 .form-btn {
   background-color: var(--font-color);
-  color: white;
   border-color: var(--font-color);
+  color: white;
 }
 
 .form-btn:hover {
   background-color: white;
+  border-color: white;
   color: var(--font-color);
-  border-color: rgba(255, 255, 255, 0.815);
 }

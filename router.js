@@ -46,7 +46,11 @@ router.get("/inbox", isAuthenticated, (req, res) => {
 });
 
 router.get("/api/messages", isAuthenticated, (req, res) => {
-  Message.find({})
+  Message.find({
+    time: {
+      $gte: req.session.user.createdAt,
+    },
+  })
     .sort({ time: 1 })
     .limit(100)
     .exec()

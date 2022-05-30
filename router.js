@@ -24,7 +24,7 @@ function isAuthenticated(req, res, next) {
 router.get("/", (req, res) => {
   axios.get(dailyQuoteAPI).then((apiRes) => {
     quote = apiRes.data[0];
-    return res.render("welcome", {
+    return res.render("home", {
       quote: quote.q,
       author: quote.a,
       user: req.session.user || null,
@@ -32,9 +32,9 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/home", isAuthenticated, (req, res) => {
+router.get("/dashboard", isAuthenticated, (req, res) => {
   const user = req.session.user;
-  res.render("home", { user });
+  res.render("dashboard", { user });
 });
 
 router.get("/inbox", isAuthenticated, (req, res) => {
@@ -61,7 +61,7 @@ router.get("/api/messages", isAuthenticated, (req, res) => {
 
 router.get("/sign-up", (req, res) => {
   if (req.session.user) {
-    return res.redirect("/home");
+    return res.redirect("/");
   }
 
   res.render("sign-up", {
@@ -72,7 +72,7 @@ router.get("/sign-up", (req, res) => {
 
 router.get("/sign-in", (req, res) => {
   if (req.session.user) {
-    return res.redirect("/home");
+    return res.redirect("/");
   }
 
   res.render("sign-in", {
@@ -144,7 +144,7 @@ router.post(
         username: username,
       }).then((user) => {
         req.session.user = user;
-        return res.redirect("home");
+        return res.redirect("/");
       });
     });
   }
@@ -219,7 +219,7 @@ router.post(
               req.session.redirectURL = null;
               return res.redirect(tmp);
             } else {
-              return res.redirect("/home");
+              return res.redirect("/");
             }
           })
           .catch((err) => {
@@ -247,14 +247,9 @@ router.get("/var", (req, res) => {
 
 router.use((err, req, res, next) => {
   console.log(err);
-
   res
     .status(err.status || 500)
     .render("error", { message: err.message || "Internal Server Error" });
-
-  // res
-  //   .status(err.status || 500)
-  //   .json({ ...err, message: err.message || "Internal Server Error" });
 });
 
 module.exports = router;

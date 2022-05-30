@@ -1,19 +1,18 @@
 <hr>
-
 <footer>
-<center>
-<nav class="nav justify-content-center">
-  <a class="nav-link" href="/">Quote</a>
-  <a class="nav-link" href="/home">Home</a>
-  <a class="nav-link" href="/inbox">Inbox</a>
-  <a class="nav-link" href="/sign-out">Sign Out</a>
-</nav>
+  <center>
+    <nav class="nav justify-content-center">
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/dashboard">Dashboard</a>
+      <a class="nav-link" href="/inbox">Inbox</a>
+      <a class="nav-link" href="/sign-out">Sign Out</a>
+    </nav>
 
-  <% if(typeof html != 'undefined'){%><%- html %><%}%>
-  <br>
+    <% if(typeof html != 'undefined'){%><%- html %><%}%>
+    <br>
 
-  <p>&copy; Aarya Bhatia <%= new Date().getFullYear() %></p>
-</center>
+    <p>&copy; Aarya Bhatia <%= new Date().getFullYear() %></p>
+  </center>
 </footer>
 
 <!-- Bootstrap JavaScript -->

@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+<div class="root container-fluid">
+  <div class="message-container container-fluid">
+    <div id="canvas"></div>
+    <center>
+      <p class="lead">
+        You have <span id="new-messages-label">0</span> new messages.
+      </p>
+      <a href="/inbox" class="btn btn-lg btn-light custom-btn">Inbox</a>
+    </center>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+<script type="text/javascript">
+  const user_id = "<%= user._id %>";
+  const username = "<%= user.username %>";
+  const first_name = "<%= user.first_name %>";
+</script>
+<script src="/animation.js"></script>
+<script type="text/javascript" src="/notifications.js"></script>
+<%- include('partials/footer') %>

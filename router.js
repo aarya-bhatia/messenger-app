@@ -29,7 +29,13 @@ router.get("/", (req, res) => {
       author: quote.a,
       user: req.session.user || null,
     });
-  });
+  }).catch(err => {
+    return res.render("home", {
+      quote: "",
+      author: "",
+      user: req.session.user || null,
+    });
+  })
 });
 
 router.get("/dashboard", isAuthenticated, (req, res) => {

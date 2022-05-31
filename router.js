@@ -5,7 +5,7 @@ const axios = require("axios");
 const store = require("./store");
 const { User, Message } = require("./models");
 const { validationResult, body, check } = require("express-validator");
-const req = require("express/lib/request");
+const mongoose = require("mongoose");
 
 router = express.Router();
 
@@ -58,9 +58,56 @@ router.get("/settings", isAuthenticated, (req, res) => {
   const user = req.session.user;
 
   res.render("settings", {
-    user,
+    user: JSON.stringify(user),
   });
 });
+
+router.post(
+  "/settings",
+  isAuthenticated,
+  check(
+    "username",
+    "username should contain alphabets, numbers, dots or underscore only"
+  ).matches(/^[A-Za-z0-9_\.]+$/),
+  check("email", "Email should be a valid").isEmail(),
+  body("username").customSanitizer((value) => value.toLowerCase()),
+  body("email").customSanitizer((value) => value.toLowerCase()),
+  check("username").custom((username) => {
+    return User.findOne({
+      username: username,
+    }).then((user) => {
+      if (user) {
+        return Promise.reject("This username is already in use");
+      }
+      Promise.resolve();
+    });
+  }),
+  (req, res) => {
+    const update = {};
+
+    if (req.body.username != req.session.user.username) {
+      update.username = req.body.username;
+    }
+
+    if (req.body.email != req.session.user.email) {
+      update.email = req.body.email;
+    }
+
+    User.updateOne(
+      { _id: mongoose.Types.ObjectId(req.session.user._id) },
+      update
+    )
+      .then((arg) => {
+        console.log(arg);
+        Object.assign(req.session.user, update);
+        return res.redirect("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error({ message: "Failed to update settings" });
+      });
+  }
+);
 
 router.get("/api/messages", isAuthenticated, (req, res) => {
   Message.find({

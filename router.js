@@ -22,20 +22,23 @@ function isAuthenticated(req, res, next) {
 }
 
 router.get("/", (req, res) => {
-  axios.get(dailyQuoteAPI).then((apiRes) => {
-    quote = apiRes.data[0];
-    return res.render("home", {
-      quote: quote.q,
-      author: quote.a,
-      user: req.session.user || null,
+  axios
+    .get(dailyQuoteAPI)
+    .then((apiRes) => {
+      quote = apiRes.data[0];
+      return res.render("home", {
+        quote: quote.q,
+        author: quote.a,
+        user: req.session.user || null,
+      });
+    })
+    .catch((err) => {
+      return res.render("home", {
+        quote: "",
+        author: "",
+        user: req.session.user || null,
+      });
     });
-  }).catch(err => {
-    return res.render("home", {
-      quote: "",
-      author: "",
-      user: req.session.user || null,
-    });
-  })
 });
 
 router.get("/dashboard", isAuthenticated, (req, res) => {
@@ -47,6 +50,14 @@ router.get("/inbox", isAuthenticated, (req, res) => {
   const user = req.session.user;
 
   res.render("inbox", {
+    user,
+  });
+});
+
+router.get("/settings", isAuthenticated, (req, res) => {
+  const user = req.session.user;
+
+  res.render("settings", {
     user,
   });
 });
@@ -73,6 +84,7 @@ router.get("/sign-up", (req, res) => {
   res.render("sign-up", {
     message: "",
     errors: [],
+    user: null,
   });
 });
 
@@ -84,6 +96,7 @@ router.get("/sign-in", (req, res) => {
   res.render("sign-in", {
     message: "",
     errors: [],
+    user: null,
   });
 });
 
@@ -114,6 +127,8 @@ router.post(
   body("last_name").customSanitizer((value) => {
     return value[0].toUpperCase() + value.toLowerCase().substring(1);
   }),
+  body("username").customSanitizer((value) => value.toLowerCase()),
+  body("email").customSanitizer((value) => value.toLowerCase()),
   check("username").custom((username) => {
     return User.findOne({
       username: username,
@@ -132,6 +147,7 @@ router.post(
       return res.render("sign-up", {
         errors: errors.array(),
         message: "",
+        user: null,
       });
     }
 
@@ -192,6 +208,7 @@ router.post(
   "/sign-in",
   check("username", "username is required").trim().not().isEmpty(),
   check("password", "password is required").trim().not().isEmpty(),
+  body("username").customSanitizer((value) => value.toLowerCase()),
   (req, res) => {
     /* check input validation errors */
     const errors = validationResult(req);
@@ -200,6 +217,7 @@ router.post(
       return res.render("sign-in", {
         errors: errors.array(),
         message: "",
+        user: null,
       });
     }
 
@@ -233,7 +251,7 @@ router.post(
           });
       })
       .catch((err) => {
-        res.render("error", { message: err.message });
+        res.render("error", { message: err.message, user: null });
       });
   }
 );
@@ -244,7 +262,7 @@ router.get("/sign-out", (req, res) => {
   });
 });
 
-router.get("/var", (req, res) => {
+router.get("/api/store", (req, res) => {
   res.json({
     online: store.online,
     last_seen: store.last_seen,
@@ -253,9 +271,10 @@ router.get("/var", (req, res) => {
 
 router.use((err, req, res, next) => {
   console.log(err);
-  res
-    .status(err.status || 500)
-    .render("error", { message: err.message || "Internal Server Error" });
+  res.status(err.status || 500).render("error", {
+    message: err.message || "Internal Server Error",
+    user: req.session.user || null,
+  });
 });
 
 module.exports = router;

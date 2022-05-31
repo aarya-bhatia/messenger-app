@@ -4,12 +4,12 @@
 
   <div class="message-container container-fluid">
     <div id="canvas"></div>
-    <center>
+    <div class="text-center">
       <p class="lead">
         You have <span id="new-messages-label">0</span> new messages.
       </p>
       <a href="/inbox" class="btn btn-lg btn-light custom-btn">Inbox</a>
-    </center>
+    </div>
   </div>
 </div>
 
@@ -21,4 +21,4 @@
 </script>
 <script src="/animation.js"></script>
 <script type="text/javascript" src="/notifications.js"></script>
-<%- include('partials/footer') %>
+<%- include('partials/footer', { user }) %>

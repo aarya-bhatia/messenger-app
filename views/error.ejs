@@ -1,21 +1,10 @@
 <%- include('partials/header') %>
 
 <div class="d-flex p-3 flex-column container-fluid text-center">
-  <div class="text-left">
-    <img
-      class="img-fluid"
-      src="/images/logo.png"
-      width="30"
-      height="30"
-      class="d-inline-block align-top"
-      alt="logo"
-      loading="lazy"
-    />
-  </div>
   <div class="mt-4">
     <h2>Error</h2>
     <p class="lead"><%= message %></p>
   </div>
 </div>
 
-<%- include('partials/footer') -%>
+<%- include('partials/footer', { user }) %>

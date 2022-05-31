@@ -84,19 +84,17 @@
       </div>
     </div>
 
-    <center>
+    <div class="text-center">
       <input type="submit" class="btn btn-lg btn-light custom-btn" />
-    </center>
+    </div>
   </form>
 
   <!-- Errors -->
   <div class="mt-2">
-    <% if(errors) { %>
-    <% for(const error of errors){ %>
-      <div class="alert alert-danger"><%= error.msg %></div>
-    <% } %>
-    <% } %>
+    <% if(errors) { %> <% for(const error of errors){ %>
+    <div class="alert alert-danger"><%= error.msg %></div>
+    <% } %> <% } %>
   </div>
 </div>
 
-<%- include('partials/footer') -%>
+<%- include('partials/footer', { user }) -%>

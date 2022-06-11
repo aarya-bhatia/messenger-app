@@ -42,7 +42,7 @@ module.exports = function (server) {
     socket.on("disconnect", function () {
       console.log("user has disconnected: " + socket.id);
 
-      let message = null
+      let message = null;
 
       if (store.online[socket.id]) {
         const user_id = store.online[socket.id].user_id;
@@ -52,12 +52,12 @@ module.exports = function (server) {
           store.last_seen[user_id] = new Date();
         }
 
-        message = username + " has left the chat"
+        message = username + " has left the chat";
       }
 
       io.emit("users", {
         users: getOnlineUsers(),
-        message
+        message,
       });
 
       delete store.online[socket.id];
@@ -84,6 +84,7 @@ module.exports = function (server) {
     });
 
     socket.on("register", function (data) {
+      console.log("Register Request:", data);
       store.online[socket.id] = data;
 
       if (data.user_id) {

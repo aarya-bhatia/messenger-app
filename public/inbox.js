@@ -22,13 +22,15 @@
   function createMessageElement(message) {
     const clone = messageTemplate.content.cloneNode(true);
 
-    clone
-      .querySelector("[data-message-avatar]")
-      .setAttribute(
-        "src",
-        "https://ui-avatars.com/api/?background=82DBD8&name=" +
-          message.sender_name.split(" ").join("+")
-      );
+    if (message.sender_name) {
+      clone
+        .querySelector("[data-message-avatar]")
+        .setAttribute(
+          "src",
+          "https://ui-avatars.com/api/?background=82DBD8&name=" +
+            message.sender_name.split(" ").join("+")
+        );
+    }
 
     clone.querySelector("[data-message-sender]").innerText = message.sender;
     clone.querySelector("[data-message-content]").innerText = message.content;
@@ -90,6 +92,8 @@
   }
 
   function handleMessage(data) {
+    // print("Message Recieved: ", data);
+
     if (data.time) {
       data.time = new Date(data.time).toLocaleString();
     }

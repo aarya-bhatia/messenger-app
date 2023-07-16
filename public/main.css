@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Mukta:wght@300&display=swap");
+/* Source Code Pro font */
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
 
 :root {
   --card-bg-color: #b3e8e5;
@@ -7,7 +8,7 @@
 }
 
 body {
-  font-family: "Mukta", sans-serif;
+  font-family: "Source Code Pro", sans-serif;
   background-color: var(--bg-color);
   color: var(--font-color);
   font-size: 105%;
@@ -30,32 +31,8 @@ a {
   background-color: var(--card-bg-color);
 }
 
-[data-message-time] {
-}
-
-[data-message-sender] {
-}
-
-[data-message-content] {
-}
-
-[data-message-actions] {
-}
-
-div[data-message-actions] a {
-  color: var(--font-color);
-}
-
-div[data-message-actions] a:hover {
-  color: var(--bg-color);
-}
-
 #canvas {
   height: 100px;
-}
-
-#online-users {
-  background-color: var(--card-bg-color);
 }
 
 input#content {

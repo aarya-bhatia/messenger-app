@@ -11,7 +11,8 @@ A web chat application built using `express.js`, `socket.io`, and `ejs`.
 - Start mongodb container: `docker run -it -p 27017:27017 --name mongodb mongo:latest`
 - Start node server: `npm run start`
 
-## Notes
+## Dev Notes
 
+- Start dev server: `npm run dev`
 - Run MongoDB shell: `docker exec mongodb mongosh`
 

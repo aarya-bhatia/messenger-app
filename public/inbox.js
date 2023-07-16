@@ -3,7 +3,7 @@
   const messageInput = document.querySelector("#content");
   const container = document.querySelector("[data-message-list]");
   const messageTemplate = document.querySelector("#message-card-template");
-  const userListElement = document.querySelector("[data-user-list]");
+  const statusInfo = document.querySelector("[data-status-info]");
   let loading = false;
   let socket = io.connect();
 
@@ -21,18 +21,7 @@
 
   function createMessageElement(message) {
     const clone = messageTemplate.content.cloneNode(true);
-
-    if (message.sender_name) {
-      clone
-        .querySelector("[data-message-avatar]")
-        .setAttribute(
-          "src",
-          "https://ui-avatars.com/api/?background=82DBD8&name=" +
-            message.sender_name.split(" ").join("+")
-        );
-    }
-
-    clone.querySelector("[data-message-sender]").innerText = message.sender;
+    clone.querySelector("[data-message-sender]").innerText = "@" + message.sender;
     clone.querySelector("[data-message-content]").innerText = message.content;
     clone.querySelector("[data-message-time]").innerText = message.time;
 
@@ -92,8 +81,6 @@
   }
 
   function handleMessage(data) {
-    // print("Message Recieved: ", data);
-
     if (data.time) {
       data.time = new Date(data.time).toLocaleString();
     }
@@ -112,12 +99,7 @@
 
   function handleUsers(data) {
     // console.log('users', data)
-    html = "";
-    for (const user of data.users) {
-      html += "<li>" + user.username + "</li>";
-    }
-
-    userListElement.innerHTML = html;
+    statusInfo.innerHTML = `There are ${data.users.length} active users.`;
 
     if (data.message) {
       addServerMessage(data.message);
